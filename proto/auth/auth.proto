@@ -17,8 +17,10 @@ message RegisterRequest {
 
 message RegisterResponse {
   string user_id = 1;
-  string refresh_token = 2;
-  string access_token = 3;
+  string email = 2;
+  string username = 3;
+  string refresh_token = 4;
+  string access_token = 5;
 }
 
 message LoginRequest {
@@ -28,6 +30,8 @@ message LoginRequest {
 
 message LoginResponse {
   string user_id = 1;
-  string refresh_token = 2;
-  string access_token = 3;
+  string email = 2;
+  string username = 3;
+  string refresh_token = 4;
+  string access_token = 5;
 }
