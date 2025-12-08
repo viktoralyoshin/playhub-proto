@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+package games.v1;
+
+import "google/protobuf/timestamp.proto";
+
+// Кэшированный ответ от поиска
+message CachedSearchResult {
+    string query = 1;
+    repeated string game_ids = 2;
+    google.protobuf.Timestamp cached_at = 3;
+    google.protobuf.Timestamp expires_at = 4;
+    int32 search_count = 5;  // Сколько раз искали этот запрос
+}
+
+// Метаданные кэша игры
+message GameCacheMetadata {
+    string game_id = 1;
+    CacheSource source = 2;
+    google.protobuf.Timestamp cached_at = 3;
+    google.protobuf.Timestamp expires_at = 4;
+    int32 access_count = 5;  // Сколько раз обращались
+    google.protobuf.Timestamp last_accessed_at = 6;
+    CachePriority priority = 7;
+}
+
+// Источник данных
+enum CacheSource {
+    CACHE_SOURCE_UNKNOWN = 0;
+    CACHE_SOURCE_IGDB_API = 1;
+    CACHE_SOURCE_MANUAL_ENTRY = 2;
+    CACHE_SOURCE_USER_GENERATED = 3;
+}
+
+// Приоритет кэша (влияет на время жизни)
+enum CachePriority {
+    CACHE_PRIORITY_LOW = 0;      // 1 час
+    CACHE_PRIORITY_MEDIUM = 1;   // 24 часа
+    CACHE_PRIORITY_HIGH = 2;     // 7 дней
+    CACHE_PRIORITY_CRITICAL = 3; // 30 дней (популярные игры)
+}
+
+// Запрос на инвалидацию кэша
+message InvalidateCacheRequest {
+    oneof target {
+        string game_id = 1;
+        string query = 2;
+        CacheScope scope = 3;
+    }
+}
+
+enum CacheScope {
+    CACHE_SCOPE_GAME = 0;
+    CACHE_SCOPE_SEARCH = 1;
+    CACHE_SCOPE_ALL = 2;
+}
+
+message InvalidateCacheResponse {
+    int32 items_invalidated = 1;
+    repeated string invalidated_ids = 2;
+}
+
+// Статистика популярности поисковых запросов
+message SearchTrend {
+    string query = 1;
+    int32 search_count = 2;
+    google.protobuf.Timestamp first_seen = 3;
+    google.protobuf.Timestamp last_seen = 4;
+    repeated string suggested_game_ids = 5;  // Самые популярные результаты для этого запроса
+}
+
+// Сервис для управления кэшем
+service CacheService {
+    // Получить статистику кэша
+    rpc GetCacheStats(GetCacheStatsRequest) returns (GetCacheStatsResponse);
+    
+    // Инвалидировать кэш
+    rpc InvalidateCache(InvalidateCacheRequest) returns (InvalidateCacheResponse);
+    
+    // Предварительная загрузка популярных игр в кэш
+    rpc PreloadPopularGames(PreloadPopularGamesRequest) returns (PreloadPopularGamesResponse);
+    
+    // Очистить старые записи кэша
+    rpc CleanupOldCache(CleanupOldCacheRequest) returns (CleanupOldCacheResponse);
+    
+    // Получить горячие поисковые запросы
+    rpc GetHotSearches(GetHotSearchesRequest) returns (GetHotSearchesResponse);
+}
+
+message GetCacheStatsRequest {
+    bool detailed = 1;
+}
+
+message GetCacheStatsResponse {
+    int32 total_cached_games = 1;
+    int32 total_cached_searches = 2;
+    int64 total_cache_size_bytes = 3;
+    map<string, int32> cache_priority_distribution = 4;
+    repeated string most_accessed_games = 5;
+    repeated string most_searched_queries = 6;
+}
+
+message PreloadPopularGamesRequest {
+    int32 count = 1;
+    repeated string exclude_game_ids = 2;
+}
+
+message PreloadPopularGamesResponse {
+    int32 preloaded_count = 1;
+    repeated string preloaded_game_ids = 2;
+    double time_taken_ms = 3;
+}
+
+message CleanupOldCacheRequest {
+    int32 max_age_hours = 1;
+    CachePriority max_priority = 2;
+}
+
+message CleanupOldCacheResponse {
+    int32 cleaned_games = 1;
+    int32 cleaned_searches = 2;
+    int64 freed_bytes = 3;
+}
+
+message GetHotSearchesRequest {
+    TimeRange time_range = 1;
+    int32 limit = 2;
+}
+
+message GetHotSearchesResponse {
+    repeated SearchTrend hot_searches = 1;
+}

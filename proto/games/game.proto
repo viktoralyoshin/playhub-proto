@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+package games.v1;
+
+import "google/protobuf/timestamp.proto";
+
+// Игра - основная сущность
+message Game {
+    // Уникальный идентификатор игры в нашей системе
+    string id = 1;
+    
+    // ID из IGDB API
+    string igdb_id = 2;
+    
+    // Название игры
+    string title = 3;
+    
+    // Человеко-читаемый идентификатор для URL
+    string slug = 4;
+    
+    // Краткое описание
+    string summary = 5;
+    
+    // Полное описание
+    string description = 6;
+    
+    // URL обложки
+    string cover_url = 7;
+    
+    // URL больших скриншотов
+    repeated string screenshot_urls = 8;
+    
+    // URL трейлера/геймплея
+    string video_url = 9;
+    
+    // Дата релиза
+    google.protobuf.Timestamp release_date = 10;
+    
+    // Возрастной рейтинг
+    string age_rating = 11;
+    
+    // Рейтинг от критиков (0-100)
+    double critic_rating = 12;
+    
+    // Рейтинг от пользователей (0-5)
+    double user_rating = 13;
+    
+    // Общее время игры (часы)
+    double total_playtime = 14;
+    
+    // Жанры
+    repeated Genre genres = 15;
+    
+    // Платформы
+    repeated Platform platforms = 16;
+    
+    // Разработчики
+    repeated Company developers = 17;
+    
+    // Издатели
+    repeated Company publishers = 18;
+    
+    // Игровые режимы
+    repeated GameMode game_modes = 19;
+    
+    // Ключевые слова (теги)
+    repeated string tags = 20;
+    
+    // Статус игры в нашей системе
+    GameStatus status = 21;
+    
+    // Когда игра была добавлена в нашу БД
+    google.protobuf.Timestamp created_at = 22;
+    
+    // Когда информация об игре обновлялась
+    google.protobuf.Timestamp updated_at = 23;
+    
+    // Когда информация была получена из IGDB в последний раз
+    google.protobuf.Timestamp last_synced_at = 24;
+}
+
+// Жанр игры
+message Genre {
+    string id = 1;
+    string name = 2;
+    string slug = 3;
+}
+
+// Платформа
+message Platform {
+    string id = 1;
+    string name = 2;
+    string slug = 3;
+    string abbreviation = 4;
+}
+
+// Компания (разработчик/издатель)
+message Company {
+    string id = 1;
+    string name = 2;
+    string slug = 3;
+    string description = 4;
+    string logo_url = 5;
+}
+
+// Игровой режим
+message GameMode {
+    string id = 1;
+    string name = 2;
+}
+
+// Статус игры в системе
+enum GameStatus {
+    GAME_STATUS_UNKNOWN = 0;
+    GAME_STATUS_ACTIVE = 1;        // Активна, полностью синхронизирована
+    GAME_STATUS_PENDING = 2;       // Ожидает синхронизации из IGDB
+    GAME_STATUS_SYNCING = 3;       // В процессе синхронизации
+    GAME_STATUS_OUTDATED = 4;      // Данные устарели, нужна повторная синхронизация
+    GAME_STATUS_DELETED = 5;       // Удалена из системы (soft delete)
+}
+
+// Пагинация
+message Pagination {
+    int32 page = 1;
+    int32 page_size = 2;
+    int32 total_pages = 3;
+    int32 total_items = 4;
+}
+
+// Сортировка
+message SortOptions {
+    string field = 1;  // "title", "release_date", "critic_rating", etc.
+    SortDirection direction = 2;
+}
+
+enum SortDirection {
+    SORT_DIRECTION_ASC = 0;
+    SORT_DIRECTION_DESC = 1;
+}
+
+// Фильтры для поиска
+message GameFilters {
+    repeated string genre_ids = 1;
+    repeated string platform_ids = 2;
+    google.protobuf.Timestamp release_date_from = 3;
+    google.protobuf.Timestamp release_date_to = 4;
+    double min_rating = 5;
+    double max_rating = 6;
+    repeated string company_ids = 7;
+    repeated GameMode game_modes = 8;
+}
