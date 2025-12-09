@@ -1,271 +1,131 @@
 syntax = "proto3";
 
-package games.v1;
+package games;
 
-import "games/v1/game.proto";
-import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 
-// Сервис для работы с играми
+// ==========================================
+// Service Definition
+// ==========================================
+
 service GameService {
-    // Поиск игр (с возможностью пагинации и фильтрации)
-    rpc SearchGames(SearchGamesRequest) returns (SearchGamesResponse);
-    
-    // Получение игры по slug
-    rpc GetGameBySlug(GetGameBySlugRequest) returns (GetGameBySlugResponse);
-    
-    // Получение игры по ID
-    rpc GetGameById(GetGameByIdRequest) returns (GetGameByIdResponse);
-    
-    // Получение списка популярных игр
-    rpc GetPopularGames(GetPopularGamesRequest) returns (GetPopularGamesResponse);
-    
-    // Получение новых релизов
-    rpc GetNewReleases(GetNewReleasesRequest) returns (GetNewReleasesResponse);
-    
-    // Получение предстоящих игр
-    rpc GetUpcomingGames(GetUpcomingGamesRequest) returns (GetUpcomingGamesResponse);
-    
-    // Поиск похожих игр
-    rpc GetSimilarGames(GetSimilarGamesRequest) returns (GetSimilarGamesResponse);
-    
-    // Ручная синхронизация игры с IGDB (админский метод)
-    rpc SyncGameWithIGDB(SyncGameWithIGDBRequest) returns (SyncGameWithIGDBResponse);
-    
-    // Получение жанров
-    rpc GetGenres(GetGenresRequest) returns (GetGenresResponse);
-    
-    // Получение платформ
-    rpc GetPlatforms(GetPlatformsRequest) returns (GetPlatformsResponse);
-    
-    // Получение компаний
-    rpc GetCompanies(GetCompaniesRequest) returns (GetCompaniesResponse);
-    
-    // Получение статистики сервиса
-    rpc GetServiceStats(google.protobuf.Empty) returns (GetServiceStatsResponse);
+    // Поиск игр.
+    // Логика сервера:
+    // 1. Ищет в локальной БД (Postgres) по совпадению названия.
+    // 2. Если результатов мало или нет -> идет в IGDB API через IGDBManager::SearchGames.
+    // 3. Сохраняет новые найденные игры в БД.
+    // 4. Возвращает объединенный результат.
+    rpc SearchGames (SearchGamesRequest) returns (GamesListResponse);
+
+    // Получение детальной информации об игре.
+    // Логика сервера:
+    // 1. Ищет в БД по slug или id.
+    // 2. Если нет -> запрашивает IGDB (нужен метод поиска по slug в IGDBManager, либо через Search).
+    // 3. Если нашел -> сохраняет полную инфу в БД и отдает клиенту.
+    rpc GetGame (GetGameRequest) returns (GetGameResponse);
+
+    // Получение игр по жанру (использует IGDBManager::GetGamesByGenre + кэш)
+    rpc GetGamesByGenre (GetGamesByGenreRequest) returns (GamesListResponse);
+
+    // Получение топа игр (использует IGDBManager::GetTopRatedGames + кэш)
+    rpc GetTopRatedGames (GetDiscoveryRequest) returns (GamesListResponse);
+
+    // Получение ожидаемых игр (использует IGDBManager::GetUpcomingGames + кэш)
+    rpc GetUpcomingGames (GetDiscoveryRequest) returns (GamesListResponse);
 }
 
-// Запрос поиска игр
+// ==========================================
+// Request / Response Messages
+// ==========================================
+
 message SearchGamesRequest {
-    string query = 1;               // Поисковый запрос
-    Pagination pagination = 2;      // Пагинация
-    SortOptions sort = 3;           // Сортировка
-    GameFilters filters = 4;        // Фильтры
-    bool include_synopsis = 5;      // Включать ли краткое описание в ответ
-}
-
-// Ответ поиска игр
-message SearchGamesResponse {
-    repeated Game games = 1;
-    Pagination pagination = 2;
-    SearchMetadata metadata = 3;
-}
-
-// Метаданные поиска
-message SearchMetadata {
+    // Поисковый запрос (например "Elden Ring" или "GTA")
     string query = 1;
-    int32 cache_hits = 2;          // Сколько игр было найдено в кэше
-    int32 api_calls = 3;           // Сколько запросов было к IGDB API
-    bool from_cache = 4;           // Весь ответ из кэша?
-    double response_time_ms = 5;   // Время ответа
+
+    // Максимальное количество результатов (default: 10)
+    uint32 limit = 2;
 }
 
-// Получение игры по slug
-message GetGameBySlugRequest {
-    string slug = 1;
-}
-
-message GetGameBySlugResponse {
-    Game game = 1;
-    GameMetadata metadata = 2;
-}
-
-// Получение игры по ID
-message GetGameByIdRequest {
-    string id = 1;
-    bool force_sync = 2;  // Принудительная синхронизация с IGDB
-}
-
-message GetGameByIdResponse {
-    Game game = 1;
-    GameMetadata metadata = 2;
-}
-
-// Метаданные игры
-message GameMetadata {
-    bool from_cache = 1;           // Данные из нашего кэша?
-    google.protobuf.Timestamp cached_at = 2;  // Когда кэшировано
-    bool requires_sync = 3;        // Требуется синхронизация?
-    string sync_reason = 4;        // Причина для синхронизации
-    int32 view_count = 5;          // Счетчик просмотров
-    int32 search_count = 6;        // Счетчик поисков
-}
-
-// Популярные игры
-message GetPopularGamesRequest {
-    int32 limit = 1;               // Максимальное количество
-    TimeRange time_range = 2;      // За какой период
-    repeated string exclude_ids = 3; // Исключить определенные игры
-}
-
-enum TimeRange {
-    TIME_RANGE_DAY = 0;
-    TIME_RANGE_WEEK = 1;
-    TIME_RANGE_MONTH = 2;
-    TIME_RANGE_YEAR = 3;
-    TIME_RANGE_ALL_TIME = 4;
-}
-
-message GetPopularGamesResponse {
-    repeated PopularGame games = 1;
-}
-
-message PopularGame {
-    Game game = 1;
-    int32 popularity_score = 2;    // Очки популярности (просмотры + поиски)
-    int32 trend = 3;               // Тренд: 1 - растет, -1 - падает, 0 - стабильно
-}
-
-// Новые релизы
-message GetNewReleasesRequest {
-    Pagination pagination = 1;
-    repeated string platform_ids = 2;
-}
-
-message GetNewReleasesResponse {
-    repeated Game games = 1;
-    Pagination pagination = 2;
-}
-
-// Предстоящие игры
-message GetUpcomingGamesRequest {
-    Pagination pagination = 1;
-    int32 days_ahead = 2;          // На сколько дней вперед смотреть
-}
-
-message GetUpcomingGamesResponse {
-    repeated Game games = 1;
-    Pagination pagination = 2;
-}
-
-// Похожие игры
-message GetSimilarGamesRequest {
-    string game_id = 1;
-    int32 limit = 2;
-    SimilarityType similarity_type = 3;
-}
-
-enum SimilarityType {
-    SIMILARITY_GENRES = 0;
-    SIMILARITY_THEMES = 1;
-    SIMILARITY_GAMEPLAY = 2;
-    SIMILARITY_ALL = 3;
-}
-
-message GetSimilarGamesResponse {
-    repeated SimilarGame games = 1;
-}
-
-message SimilarGame {
-    Game game = 1;
-    double similarity_score = 2;   // 0-1 насколько похожа
-    repeated string matched_criteria = 3; // По каким критериям совпадает
-}
-
-// Синхронизация с IGDB
-message SyncGameWithIGDBRequest {
-    oneof identifier {
-        string id = 1;
-        string igdb_id = 2;
-        string slug = 3;
+message GetGameRequest {
+    // Мы позволяем искать игру либо по нашему UUID, либо по человеко-читаемому slug
+    oneof id_type {
+        string game_id = 1; // Внутренний UUID (из Postgres)
+        string slug = 2;    // URL-friendly имя (например "the-witcher-3-wild-hunt")
     }
-    bool force = 4;  // Принудительная синхронизация даже если не устарела
 }
 
-message SyncGameWithIGDBResponse {
+message GetGameResponse {
     Game game = 1;
-    SyncResult sync_result = 2;
-    SyncMetadata metadata = 3;
 }
 
-message SyncResult {
-    bool success = 1;
-    string message = 2;
-    int32 data_points_updated = 3; // Сколько полей обновлено
-    repeated string updated_fields = 4;
+message GetGamesByGenreRequest {
+    // Название жанра (как в IGDB, например "Role-playing (RPG)")
+    string genre_name = 1;
+    uint32 limit = 2;
 }
 
-message SyncMetadata {
-    google.protobuf.Timestamp sync_started_at = 1;
-    google.protobuf.Timestamp sync_completed_at = 2;
-    double api_response_time_ms = 3;
-    int32 api_calls_made = 4;
+message GetDiscoveryRequest {
+    // Лимит выдачи
+    uint32 limit = 1;
 }
 
-// Получение справочной информации
-message GetGenresRequest {
-    bool with_stats = 1;  // Включать статистику (количество игр)
+message GamesListResponse {
+    repeated Game games = 1;
 }
 
-message GetGenresResponse {
-    repeated GenreWithStats genres = 1;
-}
+// ==========================================
+// Game Entity
+// ==========================================
 
-message GenreWithStats {
-    Genre genre = 1;
-    int32 game_count = 2;  // Количество игр в этом жанре
-}
-
-message GetPlatformsRequest {
-    bool active_only = 1;  // Только активные платформы
-}
-
-message GetPlatformsResponse {
-    repeated Platform platforms = 1;
-}
-
-message GetCompaniesRequest {
-    string type = 1;  // "developer", "publisher", or empty for all
-}
-
-message GetCompaniesResponse {
-    repeated Company companies = 1;
-}
-
-// Статистика сервиса
-message GetServiceStatsResponse {
-    CacheStats cache_stats = 1;
-    ApiStats api_stats = 2;
-    SystemStats system_stats = 3;
-}
-
-message CacheStats {
-    int32 total_games_cached = 1;
-    int32 cache_hits = 2;
-    int32 cache_misses = 3;
-    double cache_hit_rate = 4;  // Процент попаданий в кэш
-    int32 cache_size_mb = 5;
-    google.protobuf.Timestamp cache_last_updated = 6;
-}
-
-message ApiStats {
-    int32 total_igdb_api_calls = 1;
-    int32 successful_calls = 2;
-    int32 failed_calls = 3;
-    double average_response_time_ms = 4;
-    int32 remaining_api_quota = 5;  // Оставшиеся запросы в IGDB API
-    google.protobuf.Timestamp quota_resets_at = 6;
-}
-
-message SystemStats {
-    int32 uptime_seconds = 1;
-    double average_response_time_ms = 2;
-    int32 concurrent_requests = 3;
-    SystemHealth health = 4;
-}
-
-enum SystemHealth {
-    SYSTEM_HEALTH_UNKNOWN = 0;
-    SYSTEM_HEALTH_HEALTHY = 1;
-    SYSTEM_HEALTH_DEGRADED = 2;
-    SYSTEM_HEALTH_UNHEALTHY = 3;
+message Game {
+    // Уникальный идентификатор игры в нашей системе (UUID string)
+    string id = 1;
+    
+    // ID из IGDB API
+    string igdb_id = 2;
+    
+    // Название игры
+    string name = 3;
+    
+    // Человеко-читаемый идентификатор для URL
+    string slug = 4;
+    
+    // Краткое описание
+    string summary = 5;
+    
+    // Рейтинг от критиков (0-100)
+    double rating = 6;
+    
+    // Индекс ожидания/хайпа
+    uint32 hypes = 7;
+    
+    // Дата первого релиза (строка, т.к. может быть неточной "2024")
+    string first_release_date = 8;
+    
+    // Список всех дат релизов
+    repeated string release_dates = 9;
+    
+    // URL обложки
+    string cover_url = 10;
+    
+    // URL артов
+    repeated string artwork_urls = 11;
+    
+    // URL скриншотов
+    repeated string screenshots = 12;
+    
+    // Жанры (RPG, Shooter, etc.)
+    repeated string genres = 13;
+    
+    // Темы (Fantasy, Sci-Fi)
+    repeated string themes = 14;
+    
+    // Платформы (PC, PS5, Xbox)
+    repeated string platforms = 15;
+    
+    // Когда запись создана в нашей БД
+    google.protobuf.Timestamp created_at = 16;
+    
+    // Когда запись обновлена в нашей БД
+    google.protobuf.Timestamp updated_at = 17;
 }
