@@ -4,7 +4,7 @@
 // - protoc             v3.21.12
 // source: games/games.proto
 
-package auth
+package games
 
 import (
 	context "context"

@@ -4,7 +4,7 @@
 // 	protoc        v3.21.12
 // source: games/games.proto
 
-package auth
+package games
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -583,7 +583,7 @@ const file_games_games_proto_rawDesc = "" +
 	"\aGetGame\x12\x15.games.GetGameRequest\x1a\x16.games.GetGameResponse\x12J\n" +
 	"\x0fGetGamesByGenre\x12\x1d.games.GetGamesByGenreRequest\x1a\x18.games.GamesListResponse\x12H\n" +
 	"\x10GetTopRatedGames\x12\x1a.games.GetDiscoveryRequest\x1a\x18.games.GamesListResponse\x12H\n" +
-	"\x10GetUpcomingGames\x12\x1a.games.GetDiscoveryRequest\x1a\x18.games.GamesListResponseB5Z3github.com/viktoralyoshin/playhub-proto/gen/go/authb\x06proto3"
+	"\x10GetUpcomingGames\x12\x1a.games.GetDiscoveryRequest\x1a\x18.games.GamesListResponseB6Z4github.com/viktoralyoshin/playhub-proto/gen/go/gamesb\x06proto3"
 
 var (
 	file_games_games_proto_rawDescOnce sync.Once
