@@ -23,11 +23,7 @@ message CreateReviewRequest {
 }
 
 message CreateReviewResponse {
-  string review_id = 1;
-  string user_id = 2;
-  string game_id = 3;
-  int32 rating = 4;  // 1-10
-  string text = 5;
+  Review review = 1;
 }
 
 message Review {
