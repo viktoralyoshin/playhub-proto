@@ -6,7 +6,7 @@ option go_package = "github.com/viktoralyoshin/playhub-proto/gen/go/social";
 
 import "google/protobuf/timestamp.proto";
 
-service InteractionService {
+service SocialService {
   // Отзывы
   rpc CreateReview(CreateReviewRequest) returns (CreateReviewResponse);
   rpc GetGameReviews(GetGameReviewsRequest) returns (GetGameReviewsResponse);
