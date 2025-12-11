@@ -448,8 +448,8 @@ const file_social_social_proto_rawDesc = "" +
 	"\x05limit\x18\x01 \x01(\x05R\x05limit\x12\x16\n" +
 	"\x06offset\x18\x02 \x01(\x05R\x06offset\";\n" +
 	"\x0fGetFeedResponse\x12(\n" +
-	"\areviews\x18\x01 \x03(\v2\x0e.social.ReviewR\areviews2\xec\x01\n" +
-	"\x12InteractionService\x12I\n" +
+	"\areviews\x18\x01 \x03(\v2\x0e.social.ReviewR\areviews2\xe7\x01\n" +
+	"\rSocialService\x12I\n" +
 	"\fCreateReview\x12\x1b.social.CreateReviewRequest\x1a\x1c.social.CreateReviewResponse\x12O\n" +
 	"\x0eGetGameReviews\x12\x1d.social.GetGameReviewsRequest\x1a\x1e.social.GetGameReviewsResponse\x12:\n" +
 	"\aGetFeed\x12\x16.social.GetFeedRequest\x1a\x17.social.GetFeedResponseB7Z5github.com/viktoralyoshin/playhub-proto/gen/go/socialb\x06proto3"
@@ -481,12 +481,12 @@ var file_social_social_proto_depIdxs = []int32{
 	7, // 0: social.Review.created_at:type_name -> google.protobuf.Timestamp
 	2, // 1: social.GetGameReviewsResponse.reviews:type_name -> social.Review
 	2, // 2: social.GetFeedResponse.reviews:type_name -> social.Review
-	0, // 3: social.InteractionService.CreateReview:input_type -> social.CreateReviewRequest
-	3, // 4: social.InteractionService.GetGameReviews:input_type -> social.GetGameReviewsRequest
-	5, // 5: social.InteractionService.GetFeed:input_type -> social.GetFeedRequest
-	1, // 6: social.InteractionService.CreateReview:output_type -> social.CreateReviewResponse
-	4, // 7: social.InteractionService.GetGameReviews:output_type -> social.GetGameReviewsResponse
-	6, // 8: social.InteractionService.GetFeed:output_type -> social.GetFeedResponse
+	0, // 3: social.SocialService.CreateReview:input_type -> social.CreateReviewRequest
+	3, // 4: social.SocialService.GetGameReviews:input_type -> social.GetGameReviewsRequest
+	5, // 5: social.SocialService.GetFeed:input_type -> social.GetFeedRequest
+	1, // 6: social.SocialService.CreateReview:output_type -> social.CreateReviewResponse
+	4, // 7: social.SocialService.GetGameReviews:output_type -> social.GetGameReviewsResponse
+	6, // 8: social.SocialService.GetFeed:output_type -> social.GetFeedResponse
 	6, // [6:9] is the sub-list for method output_type
 	3, // [3:6] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name

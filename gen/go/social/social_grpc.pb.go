@@ -19,15 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	InteractionService_CreateReview_FullMethodName   = "/social.InteractionService/CreateReview"
-	InteractionService_GetGameReviews_FullMethodName = "/social.InteractionService/GetGameReviews"
-	InteractionService_GetFeed_FullMethodName        = "/social.InteractionService/GetFeed"
+	SocialService_CreateReview_FullMethodName   = "/social.SocialService/CreateReview"
+	SocialService_GetGameReviews_FullMethodName = "/social.SocialService/GetGameReviews"
+	SocialService_GetFeed_FullMethodName        = "/social.SocialService/GetFeed"
 )
 
-// InteractionServiceClient is the client API for InteractionService service.
+// SocialServiceClient is the client API for SocialService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type InteractionServiceClient interface {
+type SocialServiceClient interface {
 	// Отзывы
 	CreateReview(ctx context.Context, in *CreateReviewRequest, opts ...grpc.CallOption) (*CreateReviewResponse, error)
 	GetGameReviews(ctx context.Context, in *GetGameReviewsRequest, opts ...grpc.CallOption) (*GetGameReviewsResponse, error)
@@ -35,165 +35,165 @@ type InteractionServiceClient interface {
 	GetFeed(ctx context.Context, in *GetFeedRequest, opts ...grpc.CallOption) (*GetFeedResponse, error)
 }
 
-type interactionServiceClient struct {
+type socialServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewInteractionServiceClient(cc grpc.ClientConnInterface) InteractionServiceClient {
-	return &interactionServiceClient{cc}
+func NewSocialServiceClient(cc grpc.ClientConnInterface) SocialServiceClient {
+	return &socialServiceClient{cc}
 }
 
-func (c *interactionServiceClient) CreateReview(ctx context.Context, in *CreateReviewRequest, opts ...grpc.CallOption) (*CreateReviewResponse, error) {
+func (c *socialServiceClient) CreateReview(ctx context.Context, in *CreateReviewRequest, opts ...grpc.CallOption) (*CreateReviewResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateReviewResponse)
-	err := c.cc.Invoke(ctx, InteractionService_CreateReview_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, SocialService_CreateReview_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *interactionServiceClient) GetGameReviews(ctx context.Context, in *GetGameReviewsRequest, opts ...grpc.CallOption) (*GetGameReviewsResponse, error) {
+func (c *socialServiceClient) GetGameReviews(ctx context.Context, in *GetGameReviewsRequest, opts ...grpc.CallOption) (*GetGameReviewsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetGameReviewsResponse)
-	err := c.cc.Invoke(ctx, InteractionService_GetGameReviews_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, SocialService_GetGameReviews_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *interactionServiceClient) GetFeed(ctx context.Context, in *GetFeedRequest, opts ...grpc.CallOption) (*GetFeedResponse, error) {
+func (c *socialServiceClient) GetFeed(ctx context.Context, in *GetFeedRequest, opts ...grpc.CallOption) (*GetFeedResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetFeedResponse)
-	err := c.cc.Invoke(ctx, InteractionService_GetFeed_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, SocialService_GetFeed_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// InteractionServiceServer is the server API for InteractionService service.
-// All implementations must embed UnimplementedInteractionServiceServer
+// SocialServiceServer is the server API for SocialService service.
+// All implementations must embed UnimplementedSocialServiceServer
 // for forward compatibility.
-type InteractionServiceServer interface {
+type SocialServiceServer interface {
 	// Отзывы
 	CreateReview(context.Context, *CreateReviewRequest) (*CreateReviewResponse, error)
 	GetGameReviews(context.Context, *GetGameReviewsRequest) (*GetGameReviewsResponse, error)
 	// Лента (Feed)
 	GetFeed(context.Context, *GetFeedRequest) (*GetFeedResponse, error)
-	mustEmbedUnimplementedInteractionServiceServer()
+	mustEmbedUnimplementedSocialServiceServer()
 }
 
-// UnimplementedInteractionServiceServer must be embedded to have
+// UnimplementedSocialServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedInteractionServiceServer struct{}
+type UnimplementedSocialServiceServer struct{}
 
-func (UnimplementedInteractionServiceServer) CreateReview(context.Context, *CreateReviewRequest) (*CreateReviewResponse, error) {
+func (UnimplementedSocialServiceServer) CreateReview(context.Context, *CreateReviewRequest) (*CreateReviewResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateReview not implemented")
 }
-func (UnimplementedInteractionServiceServer) GetGameReviews(context.Context, *GetGameReviewsRequest) (*GetGameReviewsResponse, error) {
+func (UnimplementedSocialServiceServer) GetGameReviews(context.Context, *GetGameReviewsRequest) (*GetGameReviewsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetGameReviews not implemented")
 }
-func (UnimplementedInteractionServiceServer) GetFeed(context.Context, *GetFeedRequest) (*GetFeedResponse, error) {
+func (UnimplementedSocialServiceServer) GetFeed(context.Context, *GetFeedRequest) (*GetFeedResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetFeed not implemented")
 }
-func (UnimplementedInteractionServiceServer) mustEmbedUnimplementedInteractionServiceServer() {}
-func (UnimplementedInteractionServiceServer) testEmbeddedByValue()                            {}
+func (UnimplementedSocialServiceServer) mustEmbedUnimplementedSocialServiceServer() {}
+func (UnimplementedSocialServiceServer) testEmbeddedByValue()                       {}
 
-// UnsafeInteractionServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to InteractionServiceServer will
+// UnsafeSocialServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to SocialServiceServer will
 // result in compilation errors.
-type UnsafeInteractionServiceServer interface {
-	mustEmbedUnimplementedInteractionServiceServer()
+type UnsafeSocialServiceServer interface {
+	mustEmbedUnimplementedSocialServiceServer()
 }
 
-func RegisterInteractionServiceServer(s grpc.ServiceRegistrar, srv InteractionServiceServer) {
-	// If the following call panics, it indicates UnimplementedInteractionServiceServer was
+func RegisterSocialServiceServer(s grpc.ServiceRegistrar, srv SocialServiceServer) {
+	// If the following call panics, it indicates UnimplementedSocialServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&InteractionService_ServiceDesc, srv)
+	s.RegisterService(&SocialService_ServiceDesc, srv)
 }
 
-func _InteractionService_CreateReview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SocialService_CreateReview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateReviewRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(InteractionServiceServer).CreateReview(ctx, in)
+		return srv.(SocialServiceServer).CreateReview(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: InteractionService_CreateReview_FullMethodName,
+		FullMethod: SocialService_CreateReview_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(InteractionServiceServer).CreateReview(ctx, req.(*CreateReviewRequest))
+		return srv.(SocialServiceServer).CreateReview(ctx, req.(*CreateReviewRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _InteractionService_GetGameReviews_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SocialService_GetGameReviews_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetGameReviewsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(InteractionServiceServer).GetGameReviews(ctx, in)
+		return srv.(SocialServiceServer).GetGameReviews(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: InteractionService_GetGameReviews_FullMethodName,
+		FullMethod: SocialService_GetGameReviews_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(InteractionServiceServer).GetGameReviews(ctx, req.(*GetGameReviewsRequest))
+		return srv.(SocialServiceServer).GetGameReviews(ctx, req.(*GetGameReviewsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _InteractionService_GetFeed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SocialService_GetFeed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetFeedRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(InteractionServiceServer).GetFeed(ctx, in)
+		return srv.(SocialServiceServer).GetFeed(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: InteractionService_GetFeed_FullMethodName,
+		FullMethod: SocialService_GetFeed_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(InteractionServiceServer).GetFeed(ctx, req.(*GetFeedRequest))
+		return srv.(SocialServiceServer).GetFeed(ctx, req.(*GetFeedRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// InteractionService_ServiceDesc is the grpc.ServiceDesc for InteractionService service.
+// SocialService_ServiceDesc is the grpc.ServiceDesc for SocialService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var InteractionService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "social.InteractionService",
-	HandlerType: (*InteractionServiceServer)(nil),
+var SocialService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "social.SocialService",
+	HandlerType: (*SocialServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "CreateReview",
-			Handler:    _InteractionService_CreateReview_Handler,
+			Handler:    _SocialService_CreateReview_Handler,
 		},
 		{
 			MethodName: "GetGameReviews",
-			Handler:    _InteractionService_GetGameReviews_Handler,
+			Handler:    _SocialService_GetGameReviews_Handler,
 		},
 		{
 			MethodName: "GetFeed",
-			Handler:    _InteractionService_GetFeed_Handler,
+			Handler:    _SocialService_GetFeed_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
