@@ -24,8 +24,8 @@ const (
 
 type CreateReviewRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // Приходит из контекста (через Gateway)
-	GameId        int64                  `protobuf:"varint,2,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // Приходит из контекста (через Gateway)
+	GameId        string                 `protobuf:"bytes,2,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
 	Rating        int32                  `protobuf:"varint,3,opt,name=rating,proto3" json:"rating,omitempty"` // 1-10
 	Text          string                 `protobuf:"bytes,4,opt,name=text,proto3" json:"text,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -62,18 +62,18 @@ func (*CreateReviewRequest) Descriptor() ([]byte, []int) {
 	return file_social_social_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CreateReviewRequest) GetUserId() int64 {
+func (x *CreateReviewRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
-	return 0
+	return ""
 }
 
-func (x *CreateReviewRequest) GetGameId() int64 {
+func (x *CreateReviewRequest) GetGameId() string {
 	if x != nil {
 		return x.GameId
 	}
-	return 0
+	return ""
 }
 
 func (x *CreateReviewRequest) GetRating() int32 {
@@ -92,7 +92,7 @@ func (x *CreateReviewRequest) GetText() string {
 
 type CreateReviewResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ReviewId      int64                  `protobuf:"varint,1,opt,name=review_id,json=reviewId,proto3" json:"review_id,omitempty"`
+	ReviewId      string                 `protobuf:"bytes,1,opt,name=review_id,json=reviewId,proto3" json:"review_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -127,18 +127,18 @@ func (*CreateReviewResponse) Descriptor() ([]byte, []int) {
 	return file_social_social_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *CreateReviewResponse) GetReviewId() int64 {
+func (x *CreateReviewResponse) GetReviewId() string {
 	if x != nil {
 		return x.ReviewId
 	}
-	return 0
+	return ""
 }
 
 type Review struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	GameId        int64                  `protobuf:"varint,3,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	GameId        string                 `protobuf:"bytes,3,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
 	Rating        int32                  `protobuf:"varint,4,opt,name=rating,proto3" json:"rating,omitempty"`
 	Text          string                 `protobuf:"bytes,5,opt,name=text,proto3" json:"text,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
@@ -176,25 +176,25 @@ func (*Review) Descriptor() ([]byte, []int) {
 	return file_social_social_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *Review) GetId() int64 {
+func (x *Review) GetId() string {
 	if x != nil {
 		return x.Id
 	}
-	return 0
+	return ""
 }
 
-func (x *Review) GetUserId() int64 {
+func (x *Review) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
-	return 0
+	return ""
 }
 
-func (x *Review) GetGameId() int64 {
+func (x *Review) GetGameId() string {
 	if x != nil {
 		return x.GameId
 	}
-	return 0
+	return ""
 }
 
 func (x *Review) GetRating() int32 {
@@ -220,7 +220,7 @@ func (x *Review) GetCreatedAt() *timestamppb.Timestamp {
 
 type GetGameReviewsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	GameId        int64                  `protobuf:"varint,1,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
+	GameId        string                 `protobuf:"bytes,1,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
 	Limit         int32                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
 	Offset        int32                  `protobuf:"varint,3,opt,name=offset,proto3" json:"offset,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -257,11 +257,11 @@ func (*GetGameReviewsRequest) Descriptor() ([]byte, []int) {
 	return file_social_social_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetGameReviewsRequest) GetGameId() int64 {
+func (x *GetGameReviewsRequest) GetGameId() string {
 	if x != nil {
 		return x.GameId
 	}
-	return 0
+	return ""
 }
 
 func (x *GetGameReviewsRequest) GetLimit() int32 {
@@ -424,22 +424,22 @@ const file_social_social_proto_rawDesc = "" +
 	"\n" +
 	"\x13social/social.proto\x12\x06social\x1a\x1fgoogle/protobuf/timestamp.proto\"s\n" +
 	"\x13CreateReviewRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x17\n" +
-	"\agame_id\x18\x02 \x01(\x03R\x06gameId\x12\x16\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x17\n" +
+	"\agame_id\x18\x02 \x01(\tR\x06gameId\x12\x16\n" +
 	"\x06rating\x18\x03 \x01(\x05R\x06rating\x12\x12\n" +
 	"\x04text\x18\x04 \x01(\tR\x04text\"3\n" +
 	"\x14CreateReviewResponse\x12\x1b\n" +
-	"\treview_id\x18\x01 \x01(\x03R\breviewId\"\xb1\x01\n" +
+	"\treview_id\x18\x01 \x01(\tR\breviewId\"\xb1\x01\n" +
 	"\x06Review\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x17\n" +
-	"\agame_id\x18\x03 \x01(\x03R\x06gameId\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x17\n" +
+	"\agame_id\x18\x03 \x01(\tR\x06gameId\x12\x16\n" +
 	"\x06rating\x18\x04 \x01(\x05R\x06rating\x12\x12\n" +
 	"\x04text\x18\x05 \x01(\tR\x04text\x129\n" +
 	"\n" +
 	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"^\n" +
 	"\x15GetGameReviewsRequest\x12\x17\n" +
-	"\agame_id\x18\x01 \x01(\x03R\x06gameId\x12\x14\n" +
+	"\agame_id\x18\x01 \x01(\tR\x06gameId\x12\x14\n" +
 	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12\x16\n" +
 	"\x06offset\x18\x03 \x01(\x05R\x06offset\"B\n" +
 	"\x16GetGameReviewsResponse\x12(\n" +
