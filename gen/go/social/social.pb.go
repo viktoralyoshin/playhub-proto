@@ -92,7 +92,13 @@ func (x *CreateReviewRequest) GetText() string {
 
 type CreateReviewResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Review        *Review                `protobuf:"bytes,1,opt,name=review,proto3" json:"review,omitempty"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	GameId        string                 `protobuf:"bytes,3,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
+	Rating        int32                  `protobuf:"varint,4,opt,name=rating,proto3" json:"rating,omitempty"`
+	Text          string                 `protobuf:"bytes,5,opt,name=text,proto3" json:"text,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -127,9 +133,51 @@ func (*CreateReviewResponse) Descriptor() ([]byte, []int) {
 	return file_social_social_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *CreateReviewResponse) GetReview() *Review {
+func (x *CreateReviewResponse) GetId() string {
 	if x != nil {
-		return x.Review
+		return x.Id
+	}
+	return ""
+}
+
+func (x *CreateReviewResponse) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *CreateReviewResponse) GetGameId() string {
+	if x != nil {
+		return x.GameId
+	}
+	return ""
+}
+
+func (x *CreateReviewResponse) GetRating() int32 {
+	if x != nil {
+		return x.Rating
+	}
+	return 0
+}
+
+func (x *CreateReviewResponse) GetText() string {
+	if x != nil {
+		return x.Text
+	}
+	return ""
+}
+
+func (x *CreateReviewResponse) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *CreateReviewResponse) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
 	}
 	return nil
 }
@@ -435,9 +483,17 @@ const file_social_social_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x17\n" +
 	"\agame_id\x18\x02 \x01(\tR\x06gameId\x12\x16\n" +
 	"\x06rating\x18\x03 \x01(\x05R\x06rating\x12\x12\n" +
-	"\x04text\x18\x04 \x01(\tR\x04text\">\n" +
-	"\x14CreateReviewResponse\x12&\n" +
-	"\x06review\x18\x01 \x01(\v2\x0e.social.ReviewR\x06review\"\xec\x01\n" +
+	"\x04text\x18\x04 \x01(\tR\x04text\"\xfa\x01\n" +
+	"\x14CreateReviewResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x17\n" +
+	"\agame_id\x18\x03 \x01(\tR\x06gameId\x12\x16\n" +
+	"\x06rating\x18\x04 \x01(\x05R\x06rating\x12\x12\n" +
+	"\x04text\x18\x05 \x01(\tR\x04text\x129\n" +
+	"\n" +
+	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xec\x01\n" +
 	"\x06Review\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x17\n" +
@@ -488,22 +544,23 @@ var file_social_social_proto_goTypes = []any{
 	(*timestamppb.Timestamp)(nil),  // 7: google.protobuf.Timestamp
 }
 var file_social_social_proto_depIdxs = []int32{
-	2, // 0: social.CreateReviewResponse.review:type_name -> social.Review
-	7, // 1: social.Review.created_at:type_name -> google.protobuf.Timestamp
-	7, // 2: social.Review.updated_at:type_name -> google.protobuf.Timestamp
-	2, // 3: social.GetGameReviewsResponse.reviews:type_name -> social.Review
-	2, // 4: social.GetFeedResponse.reviews:type_name -> social.Review
-	0, // 5: social.SocialService.CreateReview:input_type -> social.CreateReviewRequest
-	3, // 6: social.SocialService.GetGameReviews:input_type -> social.GetGameReviewsRequest
-	5, // 7: social.SocialService.GetFeed:input_type -> social.GetFeedRequest
-	1, // 8: social.SocialService.CreateReview:output_type -> social.CreateReviewResponse
-	4, // 9: social.SocialService.GetGameReviews:output_type -> social.GetGameReviewsResponse
-	6, // 10: social.SocialService.GetFeed:output_type -> social.GetFeedResponse
-	8, // [8:11] is the sub-list for method output_type
-	5, // [5:8] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	7, // 0: social.CreateReviewResponse.created_at:type_name -> google.protobuf.Timestamp
+	7, // 1: social.CreateReviewResponse.updated_at:type_name -> google.protobuf.Timestamp
+	7, // 2: social.Review.created_at:type_name -> google.protobuf.Timestamp
+	7, // 3: social.Review.updated_at:type_name -> google.protobuf.Timestamp
+	2, // 4: social.GetGameReviewsResponse.reviews:type_name -> social.Review
+	2, // 5: social.GetFeedResponse.reviews:type_name -> social.Review
+	0, // 6: social.SocialService.CreateReview:input_type -> social.CreateReviewRequest
+	3, // 7: social.SocialService.GetGameReviews:input_type -> social.GetGameReviewsRequest
+	5, // 8: social.SocialService.GetFeed:input_type -> social.GetFeedRequest
+	1, // 9: social.SocialService.CreateReview:output_type -> social.CreateReviewResponse
+	4, // 10: social.SocialService.GetGameReviews:output_type -> social.GetGameReviewsResponse
+	6, // 11: social.SocialService.GetFeed:output_type -> social.GetFeedResponse
+	9, // [9:12] is the sub-list for method output_type
+	6, // [6:9] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_social_social_proto_init() }
