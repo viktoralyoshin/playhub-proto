@@ -33,6 +33,7 @@ message Review {
   int32 rating = 4;
   string text = 5;
   google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
 }
 
 message GetGameReviewsRequest {
