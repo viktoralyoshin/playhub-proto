@@ -96,38 +96,40 @@ message Game {
     string summary = 5;
     
     // Рейтинг от критиков (0-100)
-    double rating = 6;
+    double igdb_rating = 6;
+
+    double playhub_rating = 7;
     
     // Индекс ожидания/хайпа
-    uint32 hypes = 7;
+    uint32 hypes = 8;
     
     // Дата первого релиза (строка, т.к. может быть неточной "2024")
-    string first_release_date = 8;
+    string first_release_date = 9;
     
     // Список всех дат релизов
-    repeated string release_dates = 9;
+    repeated string release_dates = 10;
     
     // URL обложки
-    string cover_url = 10;
+    string cover_url = 11;
     
     // URL артов
-    repeated string artwork_urls = 11;
+    repeated string artwork_urls = 12;
     
     // URL скриншотов
-    repeated string screenshots = 12;
+    repeated string screenshots = 13;
     
     // Жанры (RPG, Shooter, etc.)
-    repeated string genres = 13;
+    repeated string genres = 14;
     
     // Темы (Fantasy, Sci-Fi)
-    repeated string themes = 14;
+    repeated string themes = 15;
     
     // Платформы (PC, PS5, Xbox)
-    repeated string platforms = 15;
+    repeated string platforms = 16;
     
     // Когда запись создана в нашей БД
-    google.protobuf.Timestamp created_at = 16;
+    google.protobuf.Timestamp created_at = 17;
     
     // Когда запись обновлена в нашей БД
-    google.protobuf.Timestamp updated_at = 17;
+    google.protobuf.Timestamp updated_at = 18;
 }
