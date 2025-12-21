@@ -336,7 +336,8 @@ func (x *GetGameReviewsRequest) GetOffset() int32 {
 
 type GetGameReviewsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Reviews       []*Review              `protobuf:"bytes,1,rep,name=reviews,proto3" json:"reviews,omitempty"`
+	GameId        string                 `protobuf:"bytes,1,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
+	Reviews       []*Review              `protobuf:"bytes,2,rep,name=reviews,proto3" json:"reviews,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -369,6 +370,13 @@ func (x *GetGameReviewsResponse) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GetGameReviewsResponse.ProtoReflect.Descriptor instead.
 func (*GetGameReviewsResponse) Descriptor() ([]byte, []int) {
 	return file_social_social_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetGameReviewsResponse) GetGameId() string {
+	if x != nil {
+		return x.GameId
+	}
+	return ""
 }
 
 func (x *GetGameReviewsResponse) GetReviews() []*Review {
@@ -507,9 +515,10 @@ const file_social_social_proto_rawDesc = "" +
 	"\x15GetGameReviewsRequest\x12\x17\n" +
 	"\agame_id\x18\x01 \x01(\tR\x06gameId\x12\x14\n" +
 	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12\x16\n" +
-	"\x06offset\x18\x03 \x01(\x05R\x06offset\"B\n" +
-	"\x16GetGameReviewsResponse\x12(\n" +
-	"\areviews\x18\x01 \x03(\v2\x0e.social.ReviewR\areviews\">\n" +
+	"\x06offset\x18\x03 \x01(\x05R\x06offset\"[\n" +
+	"\x16GetGameReviewsResponse\x12\x17\n" +
+	"\agame_id\x18\x01 \x01(\tR\x06gameId\x12(\n" +
+	"\areviews\x18\x02 \x03(\v2\x0e.social.ReviewR\areviews\">\n" +
 	"\x0eGetFeedRequest\x12\x14\n" +
 	"\x05limit\x18\x01 \x01(\x05R\x05limit\x12\x16\n" +
 	"\x06offset\x18\x02 \x01(\x05R\x06offset\";\n" +
