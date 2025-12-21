@@ -3,6 +3,10 @@ syntax = "proto3";
 package games;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+import "social/social.proto";
+
 
 option go_package = "github.com/viktoralyoshin/playhub-proto/gen/go/games";
 
@@ -34,6 +38,8 @@ service GameService {
 
     // Получение ожидаемых игр (использует IGDBManager::GetUpcomingGames + кэш)
     rpc GetUpcomingGames (GetDiscoveryRequest) returns (GamesListResponse);
+
+    rpc CalculateRating (social.GetGameReviewsResponse) returns (google.protobuf.Empty);
 }
 
 // ==========================================
