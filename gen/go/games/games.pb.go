@@ -7,8 +7,10 @@
 package games
 
 import (
+	social "github.com/viktoralyoshin/playhub-proto/gen/go/social"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
@@ -359,29 +361,30 @@ type Game struct {
 	// Краткое описание
 	Summary string `protobuf:"bytes,5,opt,name=summary,proto3" json:"summary,omitempty"`
 	// Рейтинг от критиков (0-100)
-	Rating float64 `protobuf:"fixed64,6,opt,name=rating,proto3" json:"rating,omitempty"`
+	IgdbRating    float64 `protobuf:"fixed64,6,opt,name=igdb_rating,json=igdbRating,proto3" json:"igdb_rating,omitempty"`
+	PlayhubRating float64 `protobuf:"fixed64,7,opt,name=playhub_rating,json=playhubRating,proto3" json:"playhub_rating,omitempty"`
 	// Индекс ожидания/хайпа
-	Hypes uint32 `protobuf:"varint,7,opt,name=hypes,proto3" json:"hypes,omitempty"`
+	Hypes uint32 `protobuf:"varint,8,opt,name=hypes,proto3" json:"hypes,omitempty"`
 	// Дата первого релиза (строка, т.к. может быть неточной "2024")
-	FirstReleaseDate string `protobuf:"bytes,8,opt,name=first_release_date,json=firstReleaseDate,proto3" json:"first_release_date,omitempty"`
+	FirstReleaseDate string `protobuf:"bytes,9,opt,name=first_release_date,json=firstReleaseDate,proto3" json:"first_release_date,omitempty"`
 	// Список всех дат релизов
-	ReleaseDates []string `protobuf:"bytes,9,rep,name=release_dates,json=releaseDates,proto3" json:"release_dates,omitempty"`
+	ReleaseDates []string `protobuf:"bytes,10,rep,name=release_dates,json=releaseDates,proto3" json:"release_dates,omitempty"`
 	// URL обложки
-	CoverUrl string `protobuf:"bytes,10,opt,name=cover_url,json=coverUrl,proto3" json:"cover_url,omitempty"`
+	CoverUrl string `protobuf:"bytes,11,opt,name=cover_url,json=coverUrl,proto3" json:"cover_url,omitempty"`
 	// URL артов
-	ArtworkUrls []string `protobuf:"bytes,11,rep,name=artwork_urls,json=artworkUrls,proto3" json:"artwork_urls,omitempty"`
+	ArtworkUrls []string `protobuf:"bytes,12,rep,name=artwork_urls,json=artworkUrls,proto3" json:"artwork_urls,omitempty"`
 	// URL скриншотов
-	Screenshots []string `protobuf:"bytes,12,rep,name=screenshots,proto3" json:"screenshots,omitempty"`
+	Screenshots []string `protobuf:"bytes,13,rep,name=screenshots,proto3" json:"screenshots,omitempty"`
 	// Жанры (RPG, Shooter, etc.)
-	Genres []string `protobuf:"bytes,13,rep,name=genres,proto3" json:"genres,omitempty"`
+	Genres []string `protobuf:"bytes,14,rep,name=genres,proto3" json:"genres,omitempty"`
 	// Темы (Fantasy, Sci-Fi)
-	Themes []string `protobuf:"bytes,14,rep,name=themes,proto3" json:"themes,omitempty"`
+	Themes []string `protobuf:"bytes,15,rep,name=themes,proto3" json:"themes,omitempty"`
 	// Платформы (PC, PS5, Xbox)
-	Platforms []string `protobuf:"bytes,15,rep,name=platforms,proto3" json:"platforms,omitempty"`
+	Platforms []string `protobuf:"bytes,16,rep,name=platforms,proto3" json:"platforms,omitempty"`
 	// Когда запись создана в нашей БД
-	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	// Когда запись обновлена в нашей БД
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,18,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -451,9 +454,16 @@ func (x *Game) GetSummary() string {
 	return ""
 }
 
-func (x *Game) GetRating() float64 {
+func (x *Game) GetIgdbRating() float64 {
 	if x != nil {
-		return x.Rating
+		return x.IgdbRating
+	}
+	return 0
+}
+
+func (x *Game) GetPlayhubRating() float64 {
+	if x != nil {
+		return x.PlayhubRating
 	}
 	return 0
 }
@@ -539,7 +549,7 @@ var File_games_games_proto protoreflect.FileDescriptor
 
 const file_games_games_proto_rawDesc = "" +
 	"\n" +
-	"\x11games/games.proto\x12\x05games\x1a\x1fgoogle/protobuf/timestamp.proto\"@\n" +
+	"\x11games/games.proto\x12\x05games\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x13social/social.proto\"@\n" +
 	"\x12SearchGamesRequest\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query\x12\x14\n" +
 	"\x05limit\x18\x02 \x01(\rR\x05limit\"L\n" +
@@ -556,34 +566,37 @@ const file_games_games_proto_rawDesc = "" +
 	"\x13GetDiscoveryRequest\x12\x14\n" +
 	"\x05limit\x18\x01 \x01(\rR\x05limit\"6\n" +
 	"\x11GamesListResponse\x12!\n" +
-	"\x05games\x18\x01 \x03(\v2\v.games.GameR\x05games\"\x98\x04\n" +
+	"\x05games\x18\x01 \x03(\v2\v.games.GameR\x05games\"\xc8\x04\n" +
 	"\x04Game\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\aigdb_id\x18\x02 \x01(\tR\x06igdbId\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12\x12\n" +
 	"\x04slug\x18\x04 \x01(\tR\x04slug\x12\x18\n" +
-	"\asummary\x18\x05 \x01(\tR\asummary\x12\x16\n" +
-	"\x06rating\x18\x06 \x01(\x01R\x06rating\x12\x14\n" +
-	"\x05hypes\x18\a \x01(\rR\x05hypes\x12,\n" +
-	"\x12first_release_date\x18\b \x01(\tR\x10firstReleaseDate\x12#\n" +
-	"\rrelease_dates\x18\t \x03(\tR\freleaseDates\x12\x1b\n" +
-	"\tcover_url\x18\n" +
-	" \x01(\tR\bcoverUrl\x12!\n" +
-	"\fartwork_urls\x18\v \x03(\tR\vartworkUrls\x12 \n" +
-	"\vscreenshots\x18\f \x03(\tR\vscreenshots\x12\x16\n" +
-	"\x06genres\x18\r \x03(\tR\x06genres\x12\x16\n" +
-	"\x06themes\x18\x0e \x03(\tR\x06themes\x12\x1c\n" +
-	"\tplatforms\x18\x0f \x03(\tR\tplatforms\x129\n" +
+	"\asummary\x18\x05 \x01(\tR\asummary\x12\x1f\n" +
+	"\vigdb_rating\x18\x06 \x01(\x01R\n" +
+	"igdbRating\x12%\n" +
+	"\x0eplayhub_rating\x18\a \x01(\x01R\rplayhubRating\x12\x14\n" +
+	"\x05hypes\x18\b \x01(\rR\x05hypes\x12,\n" +
+	"\x12first_release_date\x18\t \x01(\tR\x10firstReleaseDate\x12#\n" +
+	"\rrelease_dates\x18\n" +
+	" \x03(\tR\freleaseDates\x12\x1b\n" +
+	"\tcover_url\x18\v \x01(\tR\bcoverUrl\x12!\n" +
+	"\fartwork_urls\x18\f \x03(\tR\vartworkUrls\x12 \n" +
+	"\vscreenshots\x18\r \x03(\tR\vscreenshots\x12\x16\n" +
+	"\x06genres\x18\x0e \x03(\tR\x06genres\x12\x16\n" +
+	"\x06themes\x18\x0f \x03(\tR\x06themes\x12\x1c\n" +
+	"\tplatforms\x18\x10 \x03(\tR\tplatforms\x129\n" +
 	"\n" +
-	"created_at\x18\x10 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"created_at\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2\xeb\x02\n" +
+	"updated_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2\xb6\x03\n" +
 	"\vGameService\x12B\n" +
 	"\vSearchGames\x12\x19.games.SearchGamesRequest\x1a\x18.games.GamesListResponse\x128\n" +
 	"\aGetGame\x12\x15.games.GetGameRequest\x1a\x16.games.GetGameResponse\x12J\n" +
 	"\x0fGetGamesByGenre\x12\x1d.games.GetGamesByGenreRequest\x1a\x18.games.GamesListResponse\x12H\n" +
 	"\x10GetTopRatedGames\x12\x1a.games.GetDiscoveryRequest\x1a\x18.games.GamesListResponse\x12H\n" +
-	"\x10GetUpcomingGames\x12\x1a.games.GetDiscoveryRequest\x1a\x18.games.GamesListResponseB6Z4github.com/viktoralyoshin/playhub-proto/gen/go/gamesb\x06proto3"
+	"\x10GetUpcomingGames\x12\x1a.games.GetDiscoveryRequest\x1a\x18.games.GamesListResponse\x12I\n" +
+	"\x0fCalculateRating\x12\x1e.social.GetGameReviewsResponse\x1a\x16.google.protobuf.EmptyB6Z4github.com/viktoralyoshin/playhub-proto/gen/go/gamesb\x06proto3"
 
 var (
 	file_games_games_proto_rawDescOnce sync.Once
@@ -599,35 +612,39 @@ func file_games_games_proto_rawDescGZIP() []byte {
 
 var file_games_games_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_games_games_proto_goTypes = []any{
-	(*SearchGamesRequest)(nil),     // 0: games.SearchGamesRequest
-	(*GetGameRequest)(nil),         // 1: games.GetGameRequest
-	(*GetGameResponse)(nil),        // 2: games.GetGameResponse
-	(*GetGamesByGenreRequest)(nil), // 3: games.GetGamesByGenreRequest
-	(*GetDiscoveryRequest)(nil),    // 4: games.GetDiscoveryRequest
-	(*GamesListResponse)(nil),      // 5: games.GamesListResponse
-	(*Game)(nil),                   // 6: games.Game
-	(*timestamppb.Timestamp)(nil),  // 7: google.protobuf.Timestamp
+	(*SearchGamesRequest)(nil),            // 0: games.SearchGamesRequest
+	(*GetGameRequest)(nil),                // 1: games.GetGameRequest
+	(*GetGameResponse)(nil),               // 2: games.GetGameResponse
+	(*GetGamesByGenreRequest)(nil),        // 3: games.GetGamesByGenreRequest
+	(*GetDiscoveryRequest)(nil),           // 4: games.GetDiscoveryRequest
+	(*GamesListResponse)(nil),             // 5: games.GamesListResponse
+	(*Game)(nil),                          // 6: games.Game
+	(*timestamppb.Timestamp)(nil),         // 7: google.protobuf.Timestamp
+	(*social.GetGameReviewsResponse)(nil), // 8: social.GetGameReviewsResponse
+	(*emptypb.Empty)(nil),                 // 9: google.protobuf.Empty
 }
 var file_games_games_proto_depIdxs = []int32{
-	6, // 0: games.GetGameResponse.game:type_name -> games.Game
-	6, // 1: games.GamesListResponse.games:type_name -> games.Game
-	7, // 2: games.Game.created_at:type_name -> google.protobuf.Timestamp
-	7, // 3: games.Game.updated_at:type_name -> google.protobuf.Timestamp
-	0, // 4: games.GameService.SearchGames:input_type -> games.SearchGamesRequest
-	1, // 5: games.GameService.GetGame:input_type -> games.GetGameRequest
-	3, // 6: games.GameService.GetGamesByGenre:input_type -> games.GetGamesByGenreRequest
-	4, // 7: games.GameService.GetTopRatedGames:input_type -> games.GetDiscoveryRequest
-	4, // 8: games.GameService.GetUpcomingGames:input_type -> games.GetDiscoveryRequest
-	5, // 9: games.GameService.SearchGames:output_type -> games.GamesListResponse
-	2, // 10: games.GameService.GetGame:output_type -> games.GetGameResponse
-	5, // 11: games.GameService.GetGamesByGenre:output_type -> games.GamesListResponse
-	5, // 12: games.GameService.GetTopRatedGames:output_type -> games.GamesListResponse
-	5, // 13: games.GameService.GetUpcomingGames:output_type -> games.GamesListResponse
-	9, // [9:14] is the sub-list for method output_type
-	4, // [4:9] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	6,  // 0: games.GetGameResponse.game:type_name -> games.Game
+	6,  // 1: games.GamesListResponse.games:type_name -> games.Game
+	7,  // 2: games.Game.created_at:type_name -> google.protobuf.Timestamp
+	7,  // 3: games.Game.updated_at:type_name -> google.protobuf.Timestamp
+	0,  // 4: games.GameService.SearchGames:input_type -> games.SearchGamesRequest
+	1,  // 5: games.GameService.GetGame:input_type -> games.GetGameRequest
+	3,  // 6: games.GameService.GetGamesByGenre:input_type -> games.GetGamesByGenreRequest
+	4,  // 7: games.GameService.GetTopRatedGames:input_type -> games.GetDiscoveryRequest
+	4,  // 8: games.GameService.GetUpcomingGames:input_type -> games.GetDiscoveryRequest
+	8,  // 9: games.GameService.CalculateRating:input_type -> social.GetGameReviewsResponse
+	5,  // 10: games.GameService.SearchGames:output_type -> games.GamesListResponse
+	2,  // 11: games.GameService.GetGame:output_type -> games.GetGameResponse
+	5,  // 12: games.GameService.GetGamesByGenre:output_type -> games.GamesListResponse
+	5,  // 13: games.GameService.GetTopRatedGames:output_type -> games.GamesListResponse
+	5,  // 14: games.GameService.GetUpcomingGames:output_type -> games.GamesListResponse
+	9,  // 15: games.GameService.CalculateRating:output_type -> google.protobuf.Empty
+	10, // [10:16] is the sub-list for method output_type
+	4,  // [4:10] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_games_games_proto_init() }

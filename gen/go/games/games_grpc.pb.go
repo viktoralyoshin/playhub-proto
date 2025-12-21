@@ -8,9 +8,11 @@ package games
 
 import (
 	context "context"
+	social "github.com/viktoralyoshin/playhub-proto/gen/go/social"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -24,6 +26,7 @@ const (
 	GameService_GetGamesByGenre_FullMethodName  = "/games.GameService/GetGamesByGenre"
 	GameService_GetTopRatedGames_FullMethodName = "/games.GameService/GetTopRatedGames"
 	GameService_GetUpcomingGames_FullMethodName = "/games.GameService/GetUpcomingGames"
+	GameService_CalculateRating_FullMethodName  = "/games.GameService/CalculateRating"
 )
 
 // GameServiceClient is the client API for GameService service.
@@ -49,6 +52,7 @@ type GameServiceClient interface {
 	GetTopRatedGames(ctx context.Context, in *GetDiscoveryRequest, opts ...grpc.CallOption) (*GamesListResponse, error)
 	// Получение ожидаемых игр (использует IGDBManager::GetUpcomingGames + кэш)
 	GetUpcomingGames(ctx context.Context, in *GetDiscoveryRequest, opts ...grpc.CallOption) (*GamesListResponse, error)
+	CalculateRating(ctx context.Context, in *social.GetGameReviewsResponse, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type gameServiceClient struct {
@@ -109,6 +113,16 @@ func (c *gameServiceClient) GetUpcomingGames(ctx context.Context, in *GetDiscove
 	return out, nil
 }
 
+func (c *gameServiceClient) CalculateRating(ctx context.Context, in *social.GetGameReviewsResponse, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, GameService_CalculateRating_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GameServiceServer is the server API for GameService service.
 // All implementations must embed UnimplementedGameServiceServer
 // for forward compatibility.
@@ -132,6 +146,7 @@ type GameServiceServer interface {
 	GetTopRatedGames(context.Context, *GetDiscoveryRequest) (*GamesListResponse, error)
 	// Получение ожидаемых игр (использует IGDBManager::GetUpcomingGames + кэш)
 	GetUpcomingGames(context.Context, *GetDiscoveryRequest) (*GamesListResponse, error)
+	CalculateRating(context.Context, *social.GetGameReviewsResponse) (*emptypb.Empty, error)
 	mustEmbedUnimplementedGameServiceServer()
 }
 
@@ -156,6 +171,9 @@ func (UnimplementedGameServiceServer) GetTopRatedGames(context.Context, *GetDisc
 }
 func (UnimplementedGameServiceServer) GetUpcomingGames(context.Context, *GetDiscoveryRequest) (*GamesListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUpcomingGames not implemented")
+}
+func (UnimplementedGameServiceServer) CalculateRating(context.Context, *social.GetGameReviewsResponse) (*emptypb.Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method CalculateRating not implemented")
 }
 func (UnimplementedGameServiceServer) mustEmbedUnimplementedGameServiceServer() {}
 func (UnimplementedGameServiceServer) testEmbeddedByValue()                     {}
@@ -268,6 +286,24 @@ func _GameService_GetUpcomingGames_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GameService_CalculateRating_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(social.GetGameReviewsResponse)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServiceServer).CalculateRating(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GameService_CalculateRating_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServiceServer).CalculateRating(ctx, req.(*social.GetGameReviewsResponse))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GameService_ServiceDesc is the grpc.ServiceDesc for GameService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -294,6 +330,10 @@ var GameService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUpcomingGames",
 			Handler:    _GameService_GetUpcomingGames_Handler,
+		},
+		{
+			MethodName: "CalculateRating",
+			Handler:    _GameService_CalculateRating_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
