@@ -39,6 +39,8 @@ service GameService {
     // Получение ожидаемых игр (использует IGDBManager::GetUpcomingGames + кэш)
     rpc GetUpcomingGames (GetDiscoveryRequest) returns (GamesListResponse);
 
+    rpc ListGames (ListGamesRequest) returns (GamesListResponse);
+
     rpc CalculateRating (social.GetGameReviewsResponse) returns (google.protobuf.Empty);
 }
 
@@ -79,6 +81,11 @@ message GetDiscoveryRequest {
 
 message GamesListResponse {
     repeated Game games = 1;
+}
+
+message ListGamesRequest {
+    uint32 limit = 1;  
+    uint32 offset = 2; 
 }
 
 // ==========================================
