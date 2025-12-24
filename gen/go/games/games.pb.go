@@ -348,6 +348,58 @@ func (x *GamesListResponse) GetGames() []*Game {
 	return nil
 }
 
+type ListGamesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Limit         uint32                 `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
+	Offset        uint32                 `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListGamesRequest) Reset() {
+	*x = ListGamesRequest{}
+	mi := &file_games_games_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListGamesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListGamesRequest) ProtoMessage() {}
+
+func (x *ListGamesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_games_games_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListGamesRequest.ProtoReflect.Descriptor instead.
+func (*ListGamesRequest) Descriptor() ([]byte, []int) {
+	return file_games_games_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ListGamesRequest) GetLimit() uint32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+func (x *ListGamesRequest) GetOffset() uint32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
 type Game struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Уникальный идентификатор игры в нашей системе (UUID string)
@@ -391,7 +443,7 @@ type Game struct {
 
 func (x *Game) Reset() {
 	*x = Game{}
-	mi := &file_games_games_proto_msgTypes[6]
+	mi := &file_games_games_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -403,7 +455,7 @@ func (x *Game) String() string {
 func (*Game) ProtoMessage() {}
 
 func (x *Game) ProtoReflect() protoreflect.Message {
-	mi := &file_games_games_proto_msgTypes[6]
+	mi := &file_games_games_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -416,7 +468,7 @@ func (x *Game) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Game.ProtoReflect.Descriptor instead.
 func (*Game) Descriptor() ([]byte, []int) {
-	return file_games_games_proto_rawDescGZIP(), []int{6}
+	return file_games_games_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *Game) GetId() string {
@@ -566,7 +618,10 @@ const file_games_games_proto_rawDesc = "" +
 	"\x13GetDiscoveryRequest\x12\x14\n" +
 	"\x05limit\x18\x01 \x01(\rR\x05limit\"6\n" +
 	"\x11GamesListResponse\x12!\n" +
-	"\x05games\x18\x01 \x03(\v2\v.games.GameR\x05games\"\xc8\x04\n" +
+	"\x05games\x18\x01 \x03(\v2\v.games.GameR\x05games\"@\n" +
+	"\x10ListGamesRequest\x12\x14\n" +
+	"\x05limit\x18\x01 \x01(\rR\x05limit\x12\x16\n" +
+	"\x06offset\x18\x02 \x01(\rR\x06offset\"\xc8\x04\n" +
 	"\x04Game\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\aigdb_id\x18\x02 \x01(\tR\x06igdbId\x12\x12\n" +
@@ -589,13 +644,14 @@ const file_games_games_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2\xb6\x03\n" +
+	"updated_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2\xf6\x03\n" +
 	"\vGameService\x12B\n" +
 	"\vSearchGames\x12\x19.games.SearchGamesRequest\x1a\x18.games.GamesListResponse\x128\n" +
 	"\aGetGame\x12\x15.games.GetGameRequest\x1a\x16.games.GetGameResponse\x12J\n" +
 	"\x0fGetGamesByGenre\x12\x1d.games.GetGamesByGenreRequest\x1a\x18.games.GamesListResponse\x12H\n" +
 	"\x10GetTopRatedGames\x12\x1a.games.GetDiscoveryRequest\x1a\x18.games.GamesListResponse\x12H\n" +
-	"\x10GetUpcomingGames\x12\x1a.games.GetDiscoveryRequest\x1a\x18.games.GamesListResponse\x12I\n" +
+	"\x10GetUpcomingGames\x12\x1a.games.GetDiscoveryRequest\x1a\x18.games.GamesListResponse\x12>\n" +
+	"\tListGames\x12\x17.games.ListGamesRequest\x1a\x18.games.GamesListResponse\x12I\n" +
 	"\x0fCalculateRating\x12\x1e.social.GetGameReviewsResponse\x1a\x16.google.protobuf.EmptyB6Z4github.com/viktoralyoshin/playhub-proto/gen/go/gamesb\x06proto3"
 
 var (
@@ -610,7 +666,7 @@ func file_games_games_proto_rawDescGZIP() []byte {
 	return file_games_games_proto_rawDescData
 }
 
-var file_games_games_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_games_games_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_games_games_proto_goTypes = []any{
 	(*SearchGamesRequest)(nil),            // 0: games.SearchGamesRequest
 	(*GetGameRequest)(nil),                // 1: games.GetGameRequest
@@ -618,30 +674,33 @@ var file_games_games_proto_goTypes = []any{
 	(*GetGamesByGenreRequest)(nil),        // 3: games.GetGamesByGenreRequest
 	(*GetDiscoveryRequest)(nil),           // 4: games.GetDiscoveryRequest
 	(*GamesListResponse)(nil),             // 5: games.GamesListResponse
-	(*Game)(nil),                          // 6: games.Game
-	(*timestamppb.Timestamp)(nil),         // 7: google.protobuf.Timestamp
-	(*social.GetGameReviewsResponse)(nil), // 8: social.GetGameReviewsResponse
-	(*emptypb.Empty)(nil),                 // 9: google.protobuf.Empty
+	(*ListGamesRequest)(nil),              // 6: games.ListGamesRequest
+	(*Game)(nil),                          // 7: games.Game
+	(*timestamppb.Timestamp)(nil),         // 8: google.protobuf.Timestamp
+	(*social.GetGameReviewsResponse)(nil), // 9: social.GetGameReviewsResponse
+	(*emptypb.Empty)(nil),                 // 10: google.protobuf.Empty
 }
 var file_games_games_proto_depIdxs = []int32{
-	6,  // 0: games.GetGameResponse.game:type_name -> games.Game
-	6,  // 1: games.GamesListResponse.games:type_name -> games.Game
-	7,  // 2: games.Game.created_at:type_name -> google.protobuf.Timestamp
-	7,  // 3: games.Game.updated_at:type_name -> google.protobuf.Timestamp
+	7,  // 0: games.GetGameResponse.game:type_name -> games.Game
+	7,  // 1: games.GamesListResponse.games:type_name -> games.Game
+	8,  // 2: games.Game.created_at:type_name -> google.protobuf.Timestamp
+	8,  // 3: games.Game.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 4: games.GameService.SearchGames:input_type -> games.SearchGamesRequest
 	1,  // 5: games.GameService.GetGame:input_type -> games.GetGameRequest
 	3,  // 6: games.GameService.GetGamesByGenre:input_type -> games.GetGamesByGenreRequest
 	4,  // 7: games.GameService.GetTopRatedGames:input_type -> games.GetDiscoveryRequest
 	4,  // 8: games.GameService.GetUpcomingGames:input_type -> games.GetDiscoveryRequest
-	8,  // 9: games.GameService.CalculateRating:input_type -> social.GetGameReviewsResponse
-	5,  // 10: games.GameService.SearchGames:output_type -> games.GamesListResponse
-	2,  // 11: games.GameService.GetGame:output_type -> games.GetGameResponse
-	5,  // 12: games.GameService.GetGamesByGenre:output_type -> games.GamesListResponse
-	5,  // 13: games.GameService.GetTopRatedGames:output_type -> games.GamesListResponse
-	5,  // 14: games.GameService.GetUpcomingGames:output_type -> games.GamesListResponse
-	9,  // 15: games.GameService.CalculateRating:output_type -> google.protobuf.Empty
-	10, // [10:16] is the sub-list for method output_type
-	4,  // [4:10] is the sub-list for method input_type
+	6,  // 9: games.GameService.ListGames:input_type -> games.ListGamesRequest
+	9,  // 10: games.GameService.CalculateRating:input_type -> social.GetGameReviewsResponse
+	5,  // 11: games.GameService.SearchGames:output_type -> games.GamesListResponse
+	2,  // 12: games.GameService.GetGame:output_type -> games.GetGameResponse
+	5,  // 13: games.GameService.GetGamesByGenre:output_type -> games.GamesListResponse
+	5,  // 14: games.GameService.GetTopRatedGames:output_type -> games.GamesListResponse
+	5,  // 15: games.GameService.GetUpcomingGames:output_type -> games.GamesListResponse
+	5,  // 16: games.GameService.ListGames:output_type -> games.GamesListResponse
+	10, // 17: games.GameService.CalculateRating:output_type -> google.protobuf.Empty
+	11, // [11:18] is the sub-list for method output_type
+	4,  // [4:11] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
 	4,  // [4:4] is the sub-list for extension extendee
 	0,  // [0:4] is the sub-list for field type_name
@@ -662,7 +721,7 @@ func file_games_games_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_games_games_proto_rawDesc), len(file_games_games_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
