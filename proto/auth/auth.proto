@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package auth;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "github.com/viktoralyoshin/playhub-proto/gen/go/auth";
 
 service AuthService {
@@ -39,6 +41,9 @@ message RegisterResponse {
   string username = 3;
   string refresh_token = 4;
   string access_token = 5;
+  string role = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
 }
 
 message LoginRequest {
@@ -52,4 +57,7 @@ message LoginResponse {
   string username = 3;
   string refresh_token = 4;
   string access_token = 5;
+  string role = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
 }
