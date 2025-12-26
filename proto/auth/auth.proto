@@ -8,6 +8,7 @@ service AuthService {
   rpc Register (RegisterRequest) returns (RegisterResponse);
   rpc Login (LoginRequest) returns (LoginResponse);
   rpc ValidateToken (TokenRequest) returns (TokenResponse);
+  rpc GetNewTokens(TokenRequest) returns (NewTokenResponse);
 }
 
 message RegisterRequest {
@@ -23,6 +24,13 @@ message TokenRequest {
 message TokenResponse {
   string user_id = 1; 
   string user_role = 2;
+}
+
+message NewTokenResponse {
+  string user_id = 1; 
+  string user_role = 2;
+  string access_token = 3;
+  string refresh_token = 4;
 }
 
 message RegisterResponse {
