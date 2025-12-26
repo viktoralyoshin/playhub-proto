@@ -5,8 +5,6 @@ package games;
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
-import "social/social.proto";
-
 
 option go_package = "github.com/viktoralyoshin/playhub-proto/gen/go/games";
 
@@ -41,12 +39,17 @@ service GameService {
 
     rpc ListGames (ListGamesRequest) returns (GamesListResponse);
 
-    rpc CalculateRating (social.GetGameReviewsResponse) returns (google.protobuf.Empty);
+    rpc SetRating (RatingRequest) returns (google.protobuf.Empty);
 }
 
 // ==========================================
 // Request / Response Messages
 // ==========================================
+
+message RatingRequest {
+    string game_id = 1;
+    uint32 rating = 2;
+}
 
 message SearchGamesRequest {
     // Поисковый запрос (например "Elden Ring" или "GTA")

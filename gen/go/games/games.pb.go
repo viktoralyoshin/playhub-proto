@@ -7,7 +7,6 @@
 package games
 
 import (
-	social "github.com/viktoralyoshin/playhub-proto/gen/go/social"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
@@ -24,6 +23,58 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type RatingRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	GameId        string                 `protobuf:"bytes,1,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
+	Rating        uint32                 `protobuf:"varint,2,opt,name=rating,proto3" json:"rating,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RatingRequest) Reset() {
+	*x = RatingRequest{}
+	mi := &file_games_games_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RatingRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RatingRequest) ProtoMessage() {}
+
+func (x *RatingRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_games_games_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RatingRequest.ProtoReflect.Descriptor instead.
+func (*RatingRequest) Descriptor() ([]byte, []int) {
+	return file_games_games_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *RatingRequest) GetGameId() string {
+	if x != nil {
+		return x.GameId
+	}
+	return ""
+}
+
+func (x *RatingRequest) GetRating() uint32 {
+	if x != nil {
+		return x.Rating
+	}
+	return 0
+}
+
 type SearchGamesRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Поисковый запрос (например "Elden Ring" или "GTA")
@@ -36,7 +87,7 @@ type SearchGamesRequest struct {
 
 func (x *SearchGamesRequest) Reset() {
 	*x = SearchGamesRequest{}
-	mi := &file_games_games_proto_msgTypes[0]
+	mi := &file_games_games_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -48,7 +99,7 @@ func (x *SearchGamesRequest) String() string {
 func (*SearchGamesRequest) ProtoMessage() {}
 
 func (x *SearchGamesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_games_games_proto_msgTypes[0]
+	mi := &file_games_games_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -61,7 +112,7 @@ func (x *SearchGamesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchGamesRequest.ProtoReflect.Descriptor instead.
 func (*SearchGamesRequest) Descriptor() ([]byte, []int) {
-	return file_games_games_proto_rawDescGZIP(), []int{0}
+	return file_games_games_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *SearchGamesRequest) GetQuery() string {
@@ -93,7 +144,7 @@ type GetGameRequest struct {
 
 func (x *GetGameRequest) Reset() {
 	*x = GetGameRequest{}
-	mi := &file_games_games_proto_msgTypes[1]
+	mi := &file_games_games_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -105,7 +156,7 @@ func (x *GetGameRequest) String() string {
 func (*GetGameRequest) ProtoMessage() {}
 
 func (x *GetGameRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_games_games_proto_msgTypes[1]
+	mi := &file_games_games_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -118,7 +169,7 @@ func (x *GetGameRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGameRequest.ProtoReflect.Descriptor instead.
 func (*GetGameRequest) Descriptor() ([]byte, []int) {
-	return file_games_games_proto_rawDescGZIP(), []int{1}
+	return file_games_games_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetGameRequest) GetIdType() isGetGameRequest_IdType {
@@ -171,7 +222,7 @@ type GetGameResponse struct {
 
 func (x *GetGameResponse) Reset() {
 	*x = GetGameResponse{}
-	mi := &file_games_games_proto_msgTypes[2]
+	mi := &file_games_games_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -183,7 +234,7 @@ func (x *GetGameResponse) String() string {
 func (*GetGameResponse) ProtoMessage() {}
 
 func (x *GetGameResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_games_games_proto_msgTypes[2]
+	mi := &file_games_games_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -196,7 +247,7 @@ func (x *GetGameResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGameResponse.ProtoReflect.Descriptor instead.
 func (*GetGameResponse) Descriptor() ([]byte, []int) {
-	return file_games_games_proto_rawDescGZIP(), []int{2}
+	return file_games_games_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetGameResponse) GetGame() *Game {
@@ -217,7 +268,7 @@ type GetGamesByGenreRequest struct {
 
 func (x *GetGamesByGenreRequest) Reset() {
 	*x = GetGamesByGenreRequest{}
-	mi := &file_games_games_proto_msgTypes[3]
+	mi := &file_games_games_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -229,7 +280,7 @@ func (x *GetGamesByGenreRequest) String() string {
 func (*GetGamesByGenreRequest) ProtoMessage() {}
 
 func (x *GetGamesByGenreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_games_games_proto_msgTypes[3]
+	mi := &file_games_games_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -242,7 +293,7 @@ func (x *GetGamesByGenreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetGamesByGenreRequest.ProtoReflect.Descriptor instead.
 func (*GetGamesByGenreRequest) Descriptor() ([]byte, []int) {
-	return file_games_games_proto_rawDescGZIP(), []int{3}
+	return file_games_games_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetGamesByGenreRequest) GetGenreName() string {
@@ -269,7 +320,7 @@ type GetDiscoveryRequest struct {
 
 func (x *GetDiscoveryRequest) Reset() {
 	*x = GetDiscoveryRequest{}
-	mi := &file_games_games_proto_msgTypes[4]
+	mi := &file_games_games_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -281,7 +332,7 @@ func (x *GetDiscoveryRequest) String() string {
 func (*GetDiscoveryRequest) ProtoMessage() {}
 
 func (x *GetDiscoveryRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_games_games_proto_msgTypes[4]
+	mi := &file_games_games_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -294,7 +345,7 @@ func (x *GetDiscoveryRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDiscoveryRequest.ProtoReflect.Descriptor instead.
 func (*GetDiscoveryRequest) Descriptor() ([]byte, []int) {
-	return file_games_games_proto_rawDescGZIP(), []int{4}
+	return file_games_games_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetDiscoveryRequest) GetLimit() uint32 {
@@ -313,7 +364,7 @@ type GamesListResponse struct {
 
 func (x *GamesListResponse) Reset() {
 	*x = GamesListResponse{}
-	mi := &file_games_games_proto_msgTypes[5]
+	mi := &file_games_games_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -325,7 +376,7 @@ func (x *GamesListResponse) String() string {
 func (*GamesListResponse) ProtoMessage() {}
 
 func (x *GamesListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_games_games_proto_msgTypes[5]
+	mi := &file_games_games_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -338,7 +389,7 @@ func (x *GamesListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GamesListResponse.ProtoReflect.Descriptor instead.
 func (*GamesListResponse) Descriptor() ([]byte, []int) {
-	return file_games_games_proto_rawDescGZIP(), []int{5}
+	return file_games_games_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GamesListResponse) GetGames() []*Game {
@@ -358,7 +409,7 @@ type ListGamesRequest struct {
 
 func (x *ListGamesRequest) Reset() {
 	*x = ListGamesRequest{}
-	mi := &file_games_games_proto_msgTypes[6]
+	mi := &file_games_games_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -370,7 +421,7 @@ func (x *ListGamesRequest) String() string {
 func (*ListGamesRequest) ProtoMessage() {}
 
 func (x *ListGamesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_games_games_proto_msgTypes[6]
+	mi := &file_games_games_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -383,7 +434,7 @@ func (x *ListGamesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListGamesRequest.ProtoReflect.Descriptor instead.
 func (*ListGamesRequest) Descriptor() ([]byte, []int) {
-	return file_games_games_proto_rawDescGZIP(), []int{6}
+	return file_games_games_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListGamesRequest) GetLimit() uint32 {
@@ -443,7 +494,7 @@ type Game struct {
 
 func (x *Game) Reset() {
 	*x = Game{}
-	mi := &file_games_games_proto_msgTypes[7]
+	mi := &file_games_games_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -455,7 +506,7 @@ func (x *Game) String() string {
 func (*Game) ProtoMessage() {}
 
 func (x *Game) ProtoReflect() protoreflect.Message {
-	mi := &file_games_games_proto_msgTypes[7]
+	mi := &file_games_games_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -468,7 +519,7 @@ func (x *Game) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Game.ProtoReflect.Descriptor instead.
 func (*Game) Descriptor() ([]byte, []int) {
-	return file_games_games_proto_rawDescGZIP(), []int{7}
+	return file_games_games_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *Game) GetId() string {
@@ -601,7 +652,10 @@ var File_games_games_proto protoreflect.FileDescriptor
 
 const file_games_games_proto_rawDesc = "" +
 	"\n" +
-	"\x11games/games.proto\x12\x05games\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x13social/social.proto\"@\n" +
+	"\x11games/games.proto\x12\x05games\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\"@\n" +
+	"\rRatingRequest\x12\x17\n" +
+	"\agame_id\x18\x01 \x01(\tR\x06gameId\x12\x16\n" +
+	"\x06rating\x18\x02 \x01(\rR\x06rating\"@\n" +
 	"\x12SearchGamesRequest\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query\x12\x14\n" +
 	"\x05limit\x18\x02 \x01(\rR\x05limit\"L\n" +
@@ -644,15 +698,15 @@ const file_games_games_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2\xf6\x03\n" +
+	"updated_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2\xe6\x03\n" +
 	"\vGameService\x12B\n" +
 	"\vSearchGames\x12\x19.games.SearchGamesRequest\x1a\x18.games.GamesListResponse\x128\n" +
 	"\aGetGame\x12\x15.games.GetGameRequest\x1a\x16.games.GetGameResponse\x12J\n" +
 	"\x0fGetGamesByGenre\x12\x1d.games.GetGamesByGenreRequest\x1a\x18.games.GamesListResponse\x12H\n" +
 	"\x10GetTopRatedGames\x12\x1a.games.GetDiscoveryRequest\x1a\x18.games.GamesListResponse\x12H\n" +
 	"\x10GetUpcomingGames\x12\x1a.games.GetDiscoveryRequest\x1a\x18.games.GamesListResponse\x12>\n" +
-	"\tListGames\x12\x17.games.ListGamesRequest\x1a\x18.games.GamesListResponse\x12I\n" +
-	"\x0fCalculateRating\x12\x1e.social.GetGameReviewsResponse\x1a\x16.google.protobuf.EmptyB6Z4github.com/viktoralyoshin/playhub-proto/gen/go/gamesb\x06proto3"
+	"\tListGames\x12\x17.games.ListGamesRequest\x1a\x18.games.GamesListResponse\x129\n" +
+	"\tSetRating\x12\x14.games.RatingRequest\x1a\x16.google.protobuf.EmptyB6Z4github.com/viktoralyoshin/playhub-proto/gen/go/gamesb\x06proto3"
 
 var (
 	file_games_games_proto_rawDescOnce sync.Once
@@ -666,39 +720,39 @@ func file_games_games_proto_rawDescGZIP() []byte {
 	return file_games_games_proto_rawDescData
 }
 
-var file_games_games_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_games_games_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_games_games_proto_goTypes = []any{
-	(*SearchGamesRequest)(nil),            // 0: games.SearchGamesRequest
-	(*GetGameRequest)(nil),                // 1: games.GetGameRequest
-	(*GetGameResponse)(nil),               // 2: games.GetGameResponse
-	(*GetGamesByGenreRequest)(nil),        // 3: games.GetGamesByGenreRequest
-	(*GetDiscoveryRequest)(nil),           // 4: games.GetDiscoveryRequest
-	(*GamesListResponse)(nil),             // 5: games.GamesListResponse
-	(*ListGamesRequest)(nil),              // 6: games.ListGamesRequest
-	(*Game)(nil),                          // 7: games.Game
-	(*timestamppb.Timestamp)(nil),         // 8: google.protobuf.Timestamp
-	(*social.GetGameReviewsResponse)(nil), // 9: social.GetGameReviewsResponse
-	(*emptypb.Empty)(nil),                 // 10: google.protobuf.Empty
+	(*RatingRequest)(nil),          // 0: games.RatingRequest
+	(*SearchGamesRequest)(nil),     // 1: games.SearchGamesRequest
+	(*GetGameRequest)(nil),         // 2: games.GetGameRequest
+	(*GetGameResponse)(nil),        // 3: games.GetGameResponse
+	(*GetGamesByGenreRequest)(nil), // 4: games.GetGamesByGenreRequest
+	(*GetDiscoveryRequest)(nil),    // 5: games.GetDiscoveryRequest
+	(*GamesListResponse)(nil),      // 6: games.GamesListResponse
+	(*ListGamesRequest)(nil),       // 7: games.ListGamesRequest
+	(*Game)(nil),                   // 8: games.Game
+	(*timestamppb.Timestamp)(nil),  // 9: google.protobuf.Timestamp
+	(*emptypb.Empty)(nil),          // 10: google.protobuf.Empty
 }
 var file_games_games_proto_depIdxs = []int32{
-	7,  // 0: games.GetGameResponse.game:type_name -> games.Game
-	7,  // 1: games.GamesListResponse.games:type_name -> games.Game
-	8,  // 2: games.Game.created_at:type_name -> google.protobuf.Timestamp
-	8,  // 3: games.Game.updated_at:type_name -> google.protobuf.Timestamp
-	0,  // 4: games.GameService.SearchGames:input_type -> games.SearchGamesRequest
-	1,  // 5: games.GameService.GetGame:input_type -> games.GetGameRequest
-	3,  // 6: games.GameService.GetGamesByGenre:input_type -> games.GetGamesByGenreRequest
-	4,  // 7: games.GameService.GetTopRatedGames:input_type -> games.GetDiscoveryRequest
-	4,  // 8: games.GameService.GetUpcomingGames:input_type -> games.GetDiscoveryRequest
-	6,  // 9: games.GameService.ListGames:input_type -> games.ListGamesRequest
-	9,  // 10: games.GameService.CalculateRating:input_type -> social.GetGameReviewsResponse
-	5,  // 11: games.GameService.SearchGames:output_type -> games.GamesListResponse
-	2,  // 12: games.GameService.GetGame:output_type -> games.GetGameResponse
-	5,  // 13: games.GameService.GetGamesByGenre:output_type -> games.GamesListResponse
-	5,  // 14: games.GameService.GetTopRatedGames:output_type -> games.GamesListResponse
-	5,  // 15: games.GameService.GetUpcomingGames:output_type -> games.GamesListResponse
-	5,  // 16: games.GameService.ListGames:output_type -> games.GamesListResponse
-	10, // 17: games.GameService.CalculateRating:output_type -> google.protobuf.Empty
+	8,  // 0: games.GetGameResponse.game:type_name -> games.Game
+	8,  // 1: games.GamesListResponse.games:type_name -> games.Game
+	9,  // 2: games.Game.created_at:type_name -> google.protobuf.Timestamp
+	9,  // 3: games.Game.updated_at:type_name -> google.protobuf.Timestamp
+	1,  // 4: games.GameService.SearchGames:input_type -> games.SearchGamesRequest
+	2,  // 5: games.GameService.GetGame:input_type -> games.GetGameRequest
+	4,  // 6: games.GameService.GetGamesByGenre:input_type -> games.GetGamesByGenreRequest
+	5,  // 7: games.GameService.GetTopRatedGames:input_type -> games.GetDiscoveryRequest
+	5,  // 8: games.GameService.GetUpcomingGames:input_type -> games.GetDiscoveryRequest
+	7,  // 9: games.GameService.ListGames:input_type -> games.ListGamesRequest
+	0,  // 10: games.GameService.SetRating:input_type -> games.RatingRequest
+	6,  // 11: games.GameService.SearchGames:output_type -> games.GamesListResponse
+	3,  // 12: games.GameService.GetGame:output_type -> games.GetGameResponse
+	6,  // 13: games.GameService.GetGamesByGenre:output_type -> games.GamesListResponse
+	6,  // 14: games.GameService.GetTopRatedGames:output_type -> games.GamesListResponse
+	6,  // 15: games.GameService.GetUpcomingGames:output_type -> games.GamesListResponse
+	6,  // 16: games.GameService.ListGames:output_type -> games.GamesListResponse
+	10, // 17: games.GameService.SetRating:output_type -> google.protobuf.Empty
 	11, // [11:18] is the sub-list for method output_type
 	4,  // [4:11] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
@@ -711,7 +765,7 @@ func file_games_games_proto_init() {
 	if File_games_games_proto != nil {
 		return
 	}
-	file_games_games_proto_msgTypes[1].OneofWrappers = []any{
+	file_games_games_proto_msgTypes[2].OneofWrappers = []any{
 		(*GetGameRequest_GameId)(nil),
 		(*GetGameRequest_Slug)(nil),
 	}
@@ -721,7 +775,7 @@ func file_games_games_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_games_games_proto_rawDesc), len(file_games_games_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

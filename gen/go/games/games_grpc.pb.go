@@ -8,7 +8,6 @@ package games
 
 import (
 	context "context"
-	social "github.com/viktoralyoshin/playhub-proto/gen/go/social"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -27,7 +26,7 @@ const (
 	GameService_GetTopRatedGames_FullMethodName = "/games.GameService/GetTopRatedGames"
 	GameService_GetUpcomingGames_FullMethodName = "/games.GameService/GetUpcomingGames"
 	GameService_ListGames_FullMethodName        = "/games.GameService/ListGames"
-	GameService_CalculateRating_FullMethodName  = "/games.GameService/CalculateRating"
+	GameService_SetRating_FullMethodName        = "/games.GameService/SetRating"
 )
 
 // GameServiceClient is the client API for GameService service.
@@ -54,7 +53,7 @@ type GameServiceClient interface {
 	// Получение ожидаемых игр (использует IGDBManager::GetUpcomingGames + кэш)
 	GetUpcomingGames(ctx context.Context, in *GetDiscoveryRequest, opts ...grpc.CallOption) (*GamesListResponse, error)
 	ListGames(ctx context.Context, in *ListGamesRequest, opts ...grpc.CallOption) (*GamesListResponse, error)
-	CalculateRating(ctx context.Context, in *social.GetGameReviewsResponse, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SetRating(ctx context.Context, in *RatingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type gameServiceClient struct {
@@ -125,10 +124,10 @@ func (c *gameServiceClient) ListGames(ctx context.Context, in *ListGamesRequest,
 	return out, nil
 }
 
-func (c *gameServiceClient) CalculateRating(ctx context.Context, in *social.GetGameReviewsResponse, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *gameServiceClient) SetRating(ctx context.Context, in *RatingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, GameService_CalculateRating_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, GameService_SetRating_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -159,7 +158,7 @@ type GameServiceServer interface {
 	// Получение ожидаемых игр (использует IGDBManager::GetUpcomingGames + кэш)
 	GetUpcomingGames(context.Context, *GetDiscoveryRequest) (*GamesListResponse, error)
 	ListGames(context.Context, *ListGamesRequest) (*GamesListResponse, error)
-	CalculateRating(context.Context, *social.GetGameReviewsResponse) (*emptypb.Empty, error)
+	SetRating(context.Context, *RatingRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedGameServiceServer()
 }
 
@@ -188,8 +187,8 @@ func (UnimplementedGameServiceServer) GetUpcomingGames(context.Context, *GetDisc
 func (UnimplementedGameServiceServer) ListGames(context.Context, *ListGamesRequest) (*GamesListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListGames not implemented")
 }
-func (UnimplementedGameServiceServer) CalculateRating(context.Context, *social.GetGameReviewsResponse) (*emptypb.Empty, error) {
-	return nil, status.Error(codes.Unimplemented, "method CalculateRating not implemented")
+func (UnimplementedGameServiceServer) SetRating(context.Context, *RatingRequest) (*emptypb.Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method SetRating not implemented")
 }
 func (UnimplementedGameServiceServer) mustEmbedUnimplementedGameServiceServer() {}
 func (UnimplementedGameServiceServer) testEmbeddedByValue()                     {}
@@ -320,20 +319,20 @@ func _GameService_ListGames_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GameService_CalculateRating_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(social.GetGameReviewsResponse)
+func _GameService_SetRating_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RatingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GameServiceServer).CalculateRating(ctx, in)
+		return srv.(GameServiceServer).SetRating(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GameService_CalculateRating_FullMethodName,
+		FullMethod: GameService_SetRating_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameServiceServer).CalculateRating(ctx, req.(*social.GetGameReviewsResponse))
+		return srv.(GameServiceServer).SetRating(ctx, req.(*RatingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -370,8 +369,8 @@ var GameService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _GameService_ListGames_Handler,
 		},
 		{
-			MethodName: "CalculateRating",
-			Handler:    _GameService_CalculateRating_Handler,
+			MethodName: "SetRating",
+			Handler:    _GameService_SetRating_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
