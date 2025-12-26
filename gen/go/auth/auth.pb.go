@@ -9,6 +9,7 @@ package auth
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -252,6 +253,9 @@ type RegisterResponse struct {
 	Username      string                 `protobuf:"bytes,3,opt,name=username,proto3" json:"username,omitempty"`
 	RefreshToken  string                 `protobuf:"bytes,4,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
 	AccessToken   string                 `protobuf:"bytes,5,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
+	Role          string                 `protobuf:"bytes,6,opt,name=role,proto3" json:"role,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -321,6 +325,27 @@ func (x *RegisterResponse) GetAccessToken() string {
 	return ""
 }
 
+func (x *RegisterResponse) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
+func (x *RegisterResponse) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *RegisterResponse) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
 type LoginRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Login         string                 `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty"`
@@ -380,6 +405,9 @@ type LoginResponse struct {
 	Username      string                 `protobuf:"bytes,3,opt,name=username,proto3" json:"username,omitempty"`
 	RefreshToken  string                 `protobuf:"bytes,4,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
 	AccessToken   string                 `protobuf:"bytes,5,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
+	Role          string                 `protobuf:"bytes,6,opt,name=role,proto3" json:"role,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -449,11 +477,32 @@ func (x *LoginResponse) GetAccessToken() string {
 	return ""
 }
 
+func (x *LoginResponse) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
+func (x *LoginResponse) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *LoginResponse) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
 var File_auth_auth_proto protoreflect.FileDescriptor
 
 const file_auth_auth_proto_rawDesc = "" +
 	"\n" +
-	"\x0fauth/auth.proto\x12\x04auth\"_\n" +
+	"\x0fauth/auth.proto\x12\x04auth\x1a\x1fgoogle/protobuf/timestamp.proto\"_\n" +
 	"\x0fRegisterRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x1a\n" +
@@ -467,22 +516,32 @@ const file_auth_auth_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
 	"\tuser_role\x18\x02 \x01(\tR\buserRole\x12!\n" +
 	"\faccess_token\x18\x03 \x01(\tR\vaccessToken\x12#\n" +
-	"\rrefresh_token\x18\x04 \x01(\tR\frefreshToken\"\xa5\x01\n" +
+	"\rrefresh_token\x18\x04 \x01(\tR\frefreshToken\"\xaf\x02\n" +
 	"\x10RegisterResponse\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
 	"\busername\x18\x03 \x01(\tR\busername\x12#\n" +
 	"\rrefresh_token\x18\x04 \x01(\tR\frefreshToken\x12!\n" +
-	"\faccess_token\x18\x05 \x01(\tR\vaccessToken\"@\n" +
+	"\faccess_token\x18\x05 \x01(\tR\vaccessToken\x12\x12\n" +
+	"\x04role\x18\x06 \x01(\tR\x04role\x129\n" +
+	"\n" +
+	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"@\n" +
 	"\fLoginRequest\x12\x14\n" +
 	"\x05login\x18\x01 \x01(\tR\x05login\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"\xa2\x01\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"\xac\x02\n" +
 	"\rLoginResponse\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
 	"\busername\x18\x03 \x01(\tR\busername\x12#\n" +
 	"\rrefresh_token\x18\x04 \x01(\tR\frefreshToken\x12!\n" +
-	"\faccess_token\x18\x05 \x01(\tR\vaccessToken2\xf0\x01\n" +
+	"\faccess_token\x18\x05 \x01(\tR\vaccessToken\x12\x12\n" +
+	"\x04role\x18\x06 \x01(\tR\x04role\x129\n" +
+	"\n" +
+	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2\xf0\x01\n" +
 	"\vAuthService\x129\n" +
 	"\bRegister\x12\x15.auth.RegisterRequest\x1a\x16.auth.RegisterResponse\x120\n" +
 	"\x05Login\x12\x12.auth.LoginRequest\x1a\x13.auth.LoginResponse\x128\n" +
@@ -503,28 +562,33 @@ func file_auth_auth_proto_rawDescGZIP() []byte {
 
 var file_auth_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_auth_auth_proto_goTypes = []any{
-	(*RegisterRequest)(nil),  // 0: auth.RegisterRequest
-	(*TokenRequest)(nil),     // 1: auth.TokenRequest
-	(*TokenResponse)(nil),    // 2: auth.TokenResponse
-	(*NewTokenResponse)(nil), // 3: auth.NewTokenResponse
-	(*RegisterResponse)(nil), // 4: auth.RegisterResponse
-	(*LoginRequest)(nil),     // 5: auth.LoginRequest
-	(*LoginResponse)(nil),    // 6: auth.LoginResponse
+	(*RegisterRequest)(nil),       // 0: auth.RegisterRequest
+	(*TokenRequest)(nil),          // 1: auth.TokenRequest
+	(*TokenResponse)(nil),         // 2: auth.TokenResponse
+	(*NewTokenResponse)(nil),      // 3: auth.NewTokenResponse
+	(*RegisterResponse)(nil),      // 4: auth.RegisterResponse
+	(*LoginRequest)(nil),          // 5: auth.LoginRequest
+	(*LoginResponse)(nil),         // 6: auth.LoginResponse
+	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
 }
 var file_auth_auth_proto_depIdxs = []int32{
-	0, // 0: auth.AuthService.Register:input_type -> auth.RegisterRequest
-	5, // 1: auth.AuthService.Login:input_type -> auth.LoginRequest
-	1, // 2: auth.AuthService.ValidateToken:input_type -> auth.TokenRequest
-	1, // 3: auth.AuthService.GetNewTokens:input_type -> auth.TokenRequest
-	4, // 4: auth.AuthService.Register:output_type -> auth.RegisterResponse
-	6, // 5: auth.AuthService.Login:output_type -> auth.LoginResponse
-	2, // 6: auth.AuthService.ValidateToken:output_type -> auth.TokenResponse
-	3, // 7: auth.AuthService.GetNewTokens:output_type -> auth.NewTokenResponse
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	7, // 0: auth.RegisterResponse.created_at:type_name -> google.protobuf.Timestamp
+	7, // 1: auth.RegisterResponse.updated_at:type_name -> google.protobuf.Timestamp
+	7, // 2: auth.LoginResponse.created_at:type_name -> google.protobuf.Timestamp
+	7, // 3: auth.LoginResponse.updated_at:type_name -> google.protobuf.Timestamp
+	0, // 4: auth.AuthService.Register:input_type -> auth.RegisterRequest
+	5, // 5: auth.AuthService.Login:input_type -> auth.LoginRequest
+	1, // 6: auth.AuthService.ValidateToken:input_type -> auth.TokenRequest
+	1, // 7: auth.AuthService.GetNewTokens:input_type -> auth.TokenRequest
+	4, // 8: auth.AuthService.Register:output_type -> auth.RegisterResponse
+	6, // 9: auth.AuthService.Login:output_type -> auth.LoginResponse
+	2, // 10: auth.AuthService.ValidateToken:output_type -> auth.TokenResponse
+	3, // 11: auth.AuthService.GetNewTokens:output_type -> auth.NewTokenResponse
+	8, // [8:12] is the sub-list for method output_type
+	4, // [4:8] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_auth_auth_proto_init() }
