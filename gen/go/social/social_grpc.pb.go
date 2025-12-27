@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	SocialService_CreateReview_FullMethodName   = "/social.SocialService/CreateReview"
 	SocialService_GetGameReviews_FullMethodName = "/social.SocialService/GetGameReviews"
+	SocialService_GetUserReviews_FullMethodName = "/social.SocialService/GetUserReviews"
 	SocialService_GetFeed_FullMethodName        = "/social.SocialService/GetFeed"
 )
 
@@ -31,6 +32,7 @@ type SocialServiceClient interface {
 	// Отзывы
 	CreateReview(ctx context.Context, in *CreateReviewRequest, opts ...grpc.CallOption) (*CreateReviewResponse, error)
 	GetGameReviews(ctx context.Context, in *GetGameReviewsRequest, opts ...grpc.CallOption) (*GetGameReviewsResponse, error)
+	GetUserReviews(ctx context.Context, in *GetUserReviewsRequest, opts ...grpc.CallOption) (*GetUserReviewsResponse, error)
 	// Лента (Feed)
 	GetFeed(ctx context.Context, in *GetFeedRequest, opts ...grpc.CallOption) (*GetFeedResponse, error)
 }
@@ -63,6 +65,16 @@ func (c *socialServiceClient) GetGameReviews(ctx context.Context, in *GetGameRev
 	return out, nil
 }
 
+func (c *socialServiceClient) GetUserReviews(ctx context.Context, in *GetUserReviewsRequest, opts ...grpc.CallOption) (*GetUserReviewsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserReviewsResponse)
+	err := c.cc.Invoke(ctx, SocialService_GetUserReviews_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *socialServiceClient) GetFeed(ctx context.Context, in *GetFeedRequest, opts ...grpc.CallOption) (*GetFeedResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetFeedResponse)
@@ -80,6 +92,7 @@ type SocialServiceServer interface {
 	// Отзывы
 	CreateReview(context.Context, *CreateReviewRequest) (*CreateReviewResponse, error)
 	GetGameReviews(context.Context, *GetGameReviewsRequest) (*GetGameReviewsResponse, error)
+	GetUserReviews(context.Context, *GetUserReviewsRequest) (*GetUserReviewsResponse, error)
 	// Лента (Feed)
 	GetFeed(context.Context, *GetFeedRequest) (*GetFeedResponse, error)
 	mustEmbedUnimplementedSocialServiceServer()
@@ -97,6 +110,9 @@ func (UnimplementedSocialServiceServer) CreateReview(context.Context, *CreateRev
 }
 func (UnimplementedSocialServiceServer) GetGameReviews(context.Context, *GetGameReviewsRequest) (*GetGameReviewsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetGameReviews not implemented")
+}
+func (UnimplementedSocialServiceServer) GetUserReviews(context.Context, *GetUserReviewsRequest) (*GetUserReviewsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetUserReviews not implemented")
 }
 func (UnimplementedSocialServiceServer) GetFeed(context.Context, *GetFeedRequest) (*GetFeedResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetFeed not implemented")
@@ -158,6 +174,24 @@ func _SocialService_GetGameReviews_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SocialService_GetUserReviews_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserReviewsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SocialServiceServer).GetUserReviews(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SocialService_GetUserReviews_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SocialServiceServer).GetUserReviews(ctx, req.(*GetUserReviewsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SocialService_GetFeed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetFeedRequest)
 	if err := dec(in); err != nil {
@@ -190,6 +224,10 @@ var SocialService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetGameReviews",
 			Handler:    _SocialService_GetGameReviews_Handler,
+		},
+		{
+			MethodName: "GetUserReviews",
+			Handler:    _SocialService_GetUserReviews_Handler,
 		},
 		{
 			MethodName: "GetFeed",

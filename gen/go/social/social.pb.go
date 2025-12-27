@@ -389,7 +389,6 @@ func (x *GetGameReviewsResponse) GetReviews() []*Review {
 type GetFeedRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Limit         int32                  `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
-	Offset        int32                  `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -431,11 +430,116 @@ func (x *GetFeedRequest) GetLimit() int32 {
 	return 0
 }
 
-func (x *GetFeedRequest) GetOffset() int32 {
+type GetUserReviewsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Limit         int32                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
+	Offset        int32                  `protobuf:"varint,3,opt,name=offset,proto3" json:"offset,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserReviewsRequest) Reset() {
+	*x = GetUserReviewsRequest{}
+	mi := &file_social_social_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserReviewsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserReviewsRequest) ProtoMessage() {}
+
+func (x *GetUserReviewsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_social_social_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserReviewsRequest.ProtoReflect.Descriptor instead.
+func (*GetUserReviewsRequest) Descriptor() ([]byte, []int) {
+	return file_social_social_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetUserReviewsRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *GetUserReviewsRequest) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+func (x *GetUserReviewsRequest) GetOffset() int32 {
 	if x != nil {
 		return x.Offset
 	}
 	return 0
+}
+
+type GetUserReviewsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	GameId        string                 `protobuf:"bytes,1,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
+	Reviews       []*Review              `protobuf:"bytes,2,rep,name=reviews,proto3" json:"reviews,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserReviewsResponse) Reset() {
+	*x = GetUserReviewsResponse{}
+	mi := &file_social_social_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserReviewsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserReviewsResponse) ProtoMessage() {}
+
+func (x *GetUserReviewsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_social_social_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserReviewsResponse.ProtoReflect.Descriptor instead.
+func (*GetUserReviewsResponse) Descriptor() ([]byte, []int) {
+	return file_social_social_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GetUserReviewsResponse) GetGameId() string {
+	if x != nil {
+		return x.GameId
+	}
+	return ""
+}
+
+func (x *GetUserReviewsResponse) GetReviews() []*Review {
+	if x != nil {
+		return x.Reviews
+	}
+	return nil
 }
 
 type GetFeedResponse struct {
@@ -447,7 +551,7 @@ type GetFeedResponse struct {
 
 func (x *GetFeedResponse) Reset() {
 	*x = GetFeedResponse{}
-	mi := &file_social_social_proto_msgTypes[6]
+	mi := &file_social_social_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -459,7 +563,7 @@ func (x *GetFeedResponse) String() string {
 func (*GetFeedResponse) ProtoMessage() {}
 
 func (x *GetFeedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_social_social_proto_msgTypes[6]
+	mi := &file_social_social_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -472,7 +576,7 @@ func (x *GetFeedResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetFeedResponse.ProtoReflect.Descriptor instead.
 func (*GetFeedResponse) Descriptor() ([]byte, []int) {
-	return file_social_social_proto_rawDescGZIP(), []int{6}
+	return file_social_social_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetFeedResponse) GetReviews() []*Review {
@@ -518,15 +622,22 @@ const file_social_social_proto_rawDesc = "" +
 	"\x06offset\x18\x03 \x01(\x05R\x06offset\"[\n" +
 	"\x16GetGameReviewsResponse\x12\x17\n" +
 	"\agame_id\x18\x01 \x01(\tR\x06gameId\x12(\n" +
-	"\areviews\x18\x02 \x03(\v2\x0e.social.ReviewR\areviews\">\n" +
+	"\areviews\x18\x02 \x03(\v2\x0e.social.ReviewR\areviews\"&\n" +
 	"\x0eGetFeedRequest\x12\x14\n" +
-	"\x05limit\x18\x01 \x01(\x05R\x05limit\x12\x16\n" +
-	"\x06offset\x18\x02 \x01(\x05R\x06offset\";\n" +
+	"\x05limit\x18\x01 \x01(\x05R\x05limit\"^\n" +
+	"\x15GetUserReviewsRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12\x16\n" +
+	"\x06offset\x18\x03 \x01(\x05R\x06offset\"[\n" +
+	"\x16GetUserReviewsResponse\x12\x17\n" +
+	"\agame_id\x18\x01 \x01(\tR\x06gameId\x12(\n" +
+	"\areviews\x18\x02 \x03(\v2\x0e.social.ReviewR\areviews\";\n" +
 	"\x0fGetFeedResponse\x12(\n" +
-	"\areviews\x18\x01 \x03(\v2\x0e.social.ReviewR\areviews2\xe7\x01\n" +
+	"\areviews\x18\x01 \x03(\v2\x0e.social.ReviewR\areviews2\xb8\x02\n" +
 	"\rSocialService\x12I\n" +
 	"\fCreateReview\x12\x1b.social.CreateReviewRequest\x1a\x1c.social.CreateReviewResponse\x12O\n" +
-	"\x0eGetGameReviews\x12\x1d.social.GetGameReviewsRequest\x1a\x1e.social.GetGameReviewsResponse\x12:\n" +
+	"\x0eGetGameReviews\x12\x1d.social.GetGameReviewsRequest\x1a\x1e.social.GetGameReviewsResponse\x12O\n" +
+	"\x0eGetUserReviews\x12\x1d.social.GetUserReviewsRequest\x1a\x1e.social.GetUserReviewsResponse\x12:\n" +
 	"\aGetFeed\x12\x16.social.GetFeedRequest\x1a\x17.social.GetFeedResponseB7Z5github.com/viktoralyoshin/playhub-proto/gen/go/socialb\x06proto3"
 
 var (
@@ -541,7 +652,7 @@ func file_social_social_proto_rawDescGZIP() []byte {
 	return file_social_social_proto_rawDescData
 }
 
-var file_social_social_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_social_social_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_social_social_proto_goTypes = []any{
 	(*CreateReviewRequest)(nil),    // 0: social.CreateReviewRequest
 	(*CreateReviewResponse)(nil),   // 1: social.CreateReviewResponse
@@ -549,27 +660,32 @@ var file_social_social_proto_goTypes = []any{
 	(*GetGameReviewsRequest)(nil),  // 3: social.GetGameReviewsRequest
 	(*GetGameReviewsResponse)(nil), // 4: social.GetGameReviewsResponse
 	(*GetFeedRequest)(nil),         // 5: social.GetFeedRequest
-	(*GetFeedResponse)(nil),        // 6: social.GetFeedResponse
-	(*timestamppb.Timestamp)(nil),  // 7: google.protobuf.Timestamp
+	(*GetUserReviewsRequest)(nil),  // 6: social.GetUserReviewsRequest
+	(*GetUserReviewsResponse)(nil), // 7: social.GetUserReviewsResponse
+	(*GetFeedResponse)(nil),        // 8: social.GetFeedResponse
+	(*timestamppb.Timestamp)(nil),  // 9: google.protobuf.Timestamp
 }
 var file_social_social_proto_depIdxs = []int32{
-	7, // 0: social.CreateReviewResponse.created_at:type_name -> google.protobuf.Timestamp
-	7, // 1: social.CreateReviewResponse.updated_at:type_name -> google.protobuf.Timestamp
-	7, // 2: social.Review.created_at:type_name -> google.protobuf.Timestamp
-	7, // 3: social.Review.updated_at:type_name -> google.protobuf.Timestamp
-	2, // 4: social.GetGameReviewsResponse.reviews:type_name -> social.Review
-	2, // 5: social.GetFeedResponse.reviews:type_name -> social.Review
-	0, // 6: social.SocialService.CreateReview:input_type -> social.CreateReviewRequest
-	3, // 7: social.SocialService.GetGameReviews:input_type -> social.GetGameReviewsRequest
-	5, // 8: social.SocialService.GetFeed:input_type -> social.GetFeedRequest
-	1, // 9: social.SocialService.CreateReview:output_type -> social.CreateReviewResponse
-	4, // 10: social.SocialService.GetGameReviews:output_type -> social.GetGameReviewsResponse
-	6, // 11: social.SocialService.GetFeed:output_type -> social.GetFeedResponse
-	9, // [9:12] is the sub-list for method output_type
-	6, // [6:9] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	9,  // 0: social.CreateReviewResponse.created_at:type_name -> google.protobuf.Timestamp
+	9,  // 1: social.CreateReviewResponse.updated_at:type_name -> google.protobuf.Timestamp
+	9,  // 2: social.Review.created_at:type_name -> google.protobuf.Timestamp
+	9,  // 3: social.Review.updated_at:type_name -> google.protobuf.Timestamp
+	2,  // 4: social.GetGameReviewsResponse.reviews:type_name -> social.Review
+	2,  // 5: social.GetUserReviewsResponse.reviews:type_name -> social.Review
+	2,  // 6: social.GetFeedResponse.reviews:type_name -> social.Review
+	0,  // 7: social.SocialService.CreateReview:input_type -> social.CreateReviewRequest
+	3,  // 8: social.SocialService.GetGameReviews:input_type -> social.GetGameReviewsRequest
+	6,  // 9: social.SocialService.GetUserReviews:input_type -> social.GetUserReviewsRequest
+	5,  // 10: social.SocialService.GetFeed:input_type -> social.GetFeedRequest
+	1,  // 11: social.SocialService.CreateReview:output_type -> social.CreateReviewResponse
+	4,  // 12: social.SocialService.GetGameReviews:output_type -> social.GetGameReviewsResponse
+	7,  // 13: social.SocialService.GetUserReviews:output_type -> social.GetUserReviewsResponse
+	8,  // 14: social.SocialService.GetFeed:output_type -> social.GetFeedResponse
+	11, // [11:15] is the sub-list for method output_type
+	7,  // [7:11] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_social_social_proto_init() }
@@ -583,7 +699,7 @@ func file_social_social_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_social_social_proto_rawDesc), len(file_social_social_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
