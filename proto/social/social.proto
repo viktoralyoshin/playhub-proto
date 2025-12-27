@@ -24,13 +24,7 @@ message CreateReviewRequest {
 }
 
 message CreateReviewResponse {
-  string id = 1;
-  string user_id = 2;
-  string game_id = 3;
-  int32 rating = 4;
-  string text = 5;
-  google.protobuf.Timestamp created_at = 6;
-  google.protobuf.Timestamp updated_at = 7;
+  Review review = 1;
 }
 
 message Review {
