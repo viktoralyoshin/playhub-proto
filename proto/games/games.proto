@@ -89,6 +89,14 @@ message GamesListResponse {
 message ListGamesRequest {
     uint32 limit = 1;  
     uint32 offset = 2; 
+    FilterType filter = 3;
+}
+
+enum FilterType {
+    FIRST_RELEASE_DATE = 0;
+    PLAYHUB_RATING = 1;
+    GENRES = 2;
+    PLATFORMS = 3;
 }
 
 // ==========================================
