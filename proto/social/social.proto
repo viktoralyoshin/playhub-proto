@@ -7,19 +7,18 @@ option go_package = "github.com/viktoralyoshin/playhub-proto/gen/go/social";
 import "google/protobuf/timestamp.proto";
 
 service SocialService {
-  // Отзывы
   rpc CreateReview(CreateReviewRequest) returns (CreateReviewResponse);
   rpc GetGameReviews(GetGameReviewsRequest) returns (GetGameReviewsResponse);
   
   rpc GetUserReviews(GetUserReviewsRequest) returns (GetUserReviewsResponse);
-  // Лента (Feed)
+  
   rpc GetFeed(GetFeedRequest) returns (GetFeedResponse);
 }
 
 message CreateReviewRequest {
-  string user_id = 1; // Приходит из контекста (через Gateway)
+  string user_id = 1; 
   string game_id = 2;
-  int32 rating = 3;  // 1-10
+  int32 rating = 3;  
   string text = 4;
 }
 
