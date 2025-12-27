@@ -175,9 +175,9 @@ type GetUserResponse struct {
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
 	Username      string                 `protobuf:"bytes,3,opt,name=username,proto3" json:"username,omitempty"`
-	RefreshToken  string                 `protobuf:"bytes,4,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
-	AccessToken   string                 `protobuf:"bytes,5,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
-	Role          string                 `protobuf:"bytes,6,opt,name=role,proto3" json:"role,omitempty"`
+	Role          string                 `protobuf:"bytes,4,opt,name=role,proto3" json:"role,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -233,25 +233,25 @@ func (x *GetUserResponse) GetUsername() string {
 	return ""
 }
 
-func (x *GetUserResponse) GetRefreshToken() string {
-	if x != nil {
-		return x.RefreshToken
-	}
-	return ""
-}
-
-func (x *GetUserResponse) GetAccessToken() string {
-	if x != nil {
-		return x.AccessToken
-	}
-	return ""
-}
-
 func (x *GetUserResponse) GetRole() string {
 	if x != nil {
 		return x.Role
 	}
 	return ""
+}
+
+func (x *GetUserResponse) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *GetUserResponse) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
 }
 
 type TokenResponse struct {
@@ -638,14 +638,16 @@ const file_auth_auth_proto_rawDesc = "" +
 	"\fTokenRequest\x12\x1b\n" +
 	"\ttoken_str\x18\x01 \x01(\tR\btokenStr\")\n" +
 	"\x0eGetUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"\xb8\x01\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"\xe6\x01\n" +
 	"\x0fGetUserResponse\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
-	"\busername\x18\x03 \x01(\tR\busername\x12#\n" +
-	"\rrefresh_token\x18\x04 \x01(\tR\frefreshToken\x12!\n" +
-	"\faccess_token\x18\x05 \x01(\tR\vaccessToken\x12\x12\n" +
-	"\x04role\x18\x06 \x01(\tR\x04role\"E\n" +
+	"\busername\x18\x03 \x01(\tR\busername\x12\x12\n" +
+	"\x04role\x18\x04 \x01(\tR\x04role\x129\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"E\n" +
 	"\rTokenResponse\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
 	"\tuser_role\x18\x02 \x01(\tR\buserRole\"\x90\x01\n" +
@@ -712,25 +714,27 @@ var file_auth_auth_proto_goTypes = []any{
 	(*timestamppb.Timestamp)(nil), // 9: google.protobuf.Timestamp
 }
 var file_auth_auth_proto_depIdxs = []int32{
-	9, // 0: auth.RegisterResponse.created_at:type_name -> google.protobuf.Timestamp
-	9, // 1: auth.RegisterResponse.updated_at:type_name -> google.protobuf.Timestamp
-	9, // 2: auth.LoginResponse.created_at:type_name -> google.protobuf.Timestamp
-	9, // 3: auth.LoginResponse.updated_at:type_name -> google.protobuf.Timestamp
-	0, // 4: auth.AuthService.Register:input_type -> auth.RegisterRequest
-	7, // 5: auth.AuthService.Login:input_type -> auth.LoginRequest
-	1, // 6: auth.AuthService.ValidateToken:input_type -> auth.TokenRequest
-	1, // 7: auth.AuthService.GetNewTokens:input_type -> auth.TokenRequest
-	2, // 8: auth.AuthService.GetUser:input_type -> auth.GetUserRequest
-	6, // 9: auth.AuthService.Register:output_type -> auth.RegisterResponse
-	8, // 10: auth.AuthService.Login:output_type -> auth.LoginResponse
-	4, // 11: auth.AuthService.ValidateToken:output_type -> auth.TokenResponse
-	5, // 12: auth.AuthService.GetNewTokens:output_type -> auth.NewTokenResponse
-	3, // 13: auth.AuthService.GetUser:output_type -> auth.GetUserResponse
-	9, // [9:14] is the sub-list for method output_type
-	4, // [4:9] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	9,  // 0: auth.GetUserResponse.created_at:type_name -> google.protobuf.Timestamp
+	9,  // 1: auth.GetUserResponse.updated_at:type_name -> google.protobuf.Timestamp
+	9,  // 2: auth.RegisterResponse.created_at:type_name -> google.protobuf.Timestamp
+	9,  // 3: auth.RegisterResponse.updated_at:type_name -> google.protobuf.Timestamp
+	9,  // 4: auth.LoginResponse.created_at:type_name -> google.protobuf.Timestamp
+	9,  // 5: auth.LoginResponse.updated_at:type_name -> google.protobuf.Timestamp
+	0,  // 6: auth.AuthService.Register:input_type -> auth.RegisterRequest
+	7,  // 7: auth.AuthService.Login:input_type -> auth.LoginRequest
+	1,  // 8: auth.AuthService.ValidateToken:input_type -> auth.TokenRequest
+	1,  // 9: auth.AuthService.GetNewTokens:input_type -> auth.TokenRequest
+	2,  // 10: auth.AuthService.GetUser:input_type -> auth.GetUserRequest
+	6,  // 11: auth.AuthService.Register:output_type -> auth.RegisterResponse
+	8,  // 12: auth.AuthService.Login:output_type -> auth.LoginResponse
+	4,  // 13: auth.AuthService.ValidateToken:output_type -> auth.TokenResponse
+	5,  // 14: auth.AuthService.GetNewTokens:output_type -> auth.NewTokenResponse
+	3,  // 15: auth.AuthService.GetUser:output_type -> auth.GetUserResponse
+	11, // [11:16] is the sub-list for method output_type
+	6,  // [6:11] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_auth_auth_proto_init() }

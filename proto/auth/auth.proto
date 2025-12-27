@@ -32,9 +32,9 @@ message GetUserResponse{
   string user_id = 1;
   string email = 2;
   string username = 3;
-  string refresh_token = 4;
-  string access_token = 5;
-  string role = 6;
+  string role = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
 }
 
 message TokenResponse {
