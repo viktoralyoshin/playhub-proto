@@ -23,49 +23,49 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type FilterType int32
+type SortingType int32
 
 const (
-	FilterType_FIRST_RELEASE_DATE FilterType = 0
-	FilterType_PLAYHUB_RATING     FilterType = 1
+	SortingType_FIRST_RELEASE_DATE SortingType = 0
+	SortingType_PLAYHUB_RATING     SortingType = 1
 )
 
-// Enum value maps for FilterType.
+// Enum value maps for SortingType.
 var (
-	FilterType_name = map[int32]string{
+	SortingType_name = map[int32]string{
 		0: "FIRST_RELEASE_DATE",
 		1: "PLAYHUB_RATING",
 	}
-	FilterType_value = map[string]int32{
+	SortingType_value = map[string]int32{
 		"FIRST_RELEASE_DATE": 0,
 		"PLAYHUB_RATING":     1,
 	}
 )
 
-func (x FilterType) Enum() *FilterType {
-	p := new(FilterType)
+func (x SortingType) Enum() *SortingType {
+	p := new(SortingType)
 	*p = x
 	return p
 }
 
-func (x FilterType) String() string {
+func (x SortingType) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (FilterType) Descriptor() protoreflect.EnumDescriptor {
+func (SortingType) Descriptor() protoreflect.EnumDescriptor {
 	return file_games_games_proto_enumTypes[0].Descriptor()
 }
 
-func (FilterType) Type() protoreflect.EnumType {
+func (SortingType) Type() protoreflect.EnumType {
 	return &file_games_games_proto_enumTypes[0]
 }
 
-func (x FilterType) Number() protoreflect.EnumNumber {
+func (x SortingType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use FilterType.Descriptor instead.
-func (FilterType) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use SortingType.Descriptor instead.
+func (SortingType) EnumDescriptor() ([]byte, []int) {
 	return file_games_games_proto_rawDescGZIP(), []int{0}
 }
 
@@ -443,7 +443,7 @@ type ListGamesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Limit         uint32                 `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
 	Offset        uint32                 `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
-	Filter        FilterType             `protobuf:"varint,3,opt,name=filter,proto3,enum=games.FilterType" json:"filter,omitempty"`
+	Filter        SortingType            `protobuf:"varint,3,opt,name=filter,proto3,enum=games.SortingType" json:"filter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -492,11 +492,11 @@ func (x *ListGamesRequest) GetOffset() uint32 {
 	return 0
 }
 
-func (x *ListGamesRequest) GetFilter() FilterType {
+func (x *ListGamesRequest) GetFilter() SortingType {
 	if x != nil {
 		return x.Filter
 	}
-	return FilterType_FIRST_RELEASE_DATE
+	return SortingType_FIRST_RELEASE_DATE
 }
 
 type Game struct {
@@ -703,11 +703,11 @@ const file_games_games_proto_rawDesc = "" +
 	"\x13GetDiscoveryRequest\x12\x14\n" +
 	"\x05limit\x18\x01 \x01(\rR\x05limit\"6\n" +
 	"\x11GamesListResponse\x12!\n" +
-	"\x05games\x18\x01 \x03(\v2\v.games.GameR\x05games\"k\n" +
+	"\x05games\x18\x01 \x03(\v2\v.games.GameR\x05games\"l\n" +
 	"\x10ListGamesRequest\x12\x14\n" +
 	"\x05limit\x18\x01 \x01(\rR\x05limit\x12\x16\n" +
-	"\x06offset\x18\x02 \x01(\rR\x06offset\x12)\n" +
-	"\x06filter\x18\x03 \x01(\x0e2\x11.games.FilterTypeR\x06filter\"\xc8\x04\n" +
+	"\x06offset\x18\x02 \x01(\rR\x06offset\x12*\n" +
+	"\x06filter\x18\x03 \x01(\x0e2\x12.games.SortingTypeR\x06filter\"\xc8\x04\n" +
 	"\x04Game\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\aigdb_id\x18\x02 \x01(\tR\x06igdbId\x12\x12\n" +
@@ -730,9 +730,8 @@ const file_games_games_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt*8\n" +
-	"\n" +
-	"FilterType\x12\x16\n" +
+	"updated_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt*9\n" +
+	"\vSortingType\x12\x16\n" +
 	"\x12FIRST_RELEASE_DATE\x10\x00\x12\x12\n" +
 	"\x0ePLAYHUB_RATING\x10\x012\xe6\x03\n" +
 	"\vGameService\x12B\n" +
@@ -759,7 +758,7 @@ func file_games_games_proto_rawDescGZIP() []byte {
 var file_games_games_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_games_games_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_games_games_proto_goTypes = []any{
-	(FilterType)(0),                // 0: games.FilterType
+	(SortingType)(0),               // 0: games.SortingType
 	(*RatingRequest)(nil),          // 1: games.RatingRequest
 	(*SearchGamesRequest)(nil),     // 2: games.SearchGamesRequest
 	(*GetGameRequest)(nil),         // 3: games.GetGameRequest
@@ -775,7 +774,7 @@ var file_games_games_proto_goTypes = []any{
 var file_games_games_proto_depIdxs = []int32{
 	9,  // 0: games.GetGameResponse.game:type_name -> games.Game
 	9,  // 1: games.GamesListResponse.games:type_name -> games.Game
-	0,  // 2: games.ListGamesRequest.filter:type_name -> games.FilterType
+	0,  // 2: games.ListGamesRequest.filter:type_name -> games.SortingType
 	10, // 3: games.Game.created_at:type_name -> google.protobuf.Timestamp
 	10, // 4: games.Game.updated_at:type_name -> google.protobuf.Timestamp
 	2,  // 5: games.GameService.SearchGames:input_type -> games.SearchGamesRequest
