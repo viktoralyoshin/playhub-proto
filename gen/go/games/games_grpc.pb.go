@@ -33,24 +33,10 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GameServiceClient interface {
-	// Поиск игр.
-	// Логика сервера:
-	// 1. Ищет в локальной БД (Postgres) по совпадению названия.
-	// 2. Если результатов мало или нет -> идет в IGDB API через IGDBManager::SearchGames.
-	// 3. Сохраняет новые найденные игры в БД.
-	// 4. Возвращает объединенный результат.
 	SearchGames(ctx context.Context, in *SearchGamesRequest, opts ...grpc.CallOption) (*GamesListResponse, error)
-	// Получение детальной информации об игре.
-	// Логика сервера:
-	// 1. Ищет в БД по slug или id.
-	// 2. Если нет -> запрашивает IGDB (нужен метод поиска по slug в IGDBManager, либо через Search).
-	// 3. Если нашел -> сохраняет полную инфу в БД и отдает клиенту.
 	GetGame(ctx context.Context, in *GetGameRequest, opts ...grpc.CallOption) (*GetGameResponse, error)
-	// Получение игр по жанру (использует IGDBManager::GetGamesByGenre + кэш)
 	GetGamesByGenre(ctx context.Context, in *GetGamesByGenreRequest, opts ...grpc.CallOption) (*GamesListResponse, error)
-	// Получение топа игр (использует IGDBManager::GetTopRatedGames + кэш)
 	GetTopRatedGames(ctx context.Context, in *GetDiscoveryRequest, opts ...grpc.CallOption) (*GamesListResponse, error)
-	// Получение ожидаемых игр (использует IGDBManager::GetUpcomingGames + кэш)
 	GetUpcomingGames(ctx context.Context, in *GetDiscoveryRequest, opts ...grpc.CallOption) (*GamesListResponse, error)
 	ListGames(ctx context.Context, in *ListGamesRequest, opts ...grpc.CallOption) (*GamesListResponse, error)
 	SetRating(ctx context.Context, in *RatingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
@@ -138,24 +124,10 @@ func (c *gameServiceClient) SetRating(ctx context.Context, in *RatingRequest, op
 // All implementations must embed UnimplementedGameServiceServer
 // for forward compatibility.
 type GameServiceServer interface {
-	// Поиск игр.
-	// Логика сервера:
-	// 1. Ищет в локальной БД (Postgres) по совпадению названия.
-	// 2. Если результатов мало или нет -> идет в IGDB API через IGDBManager::SearchGames.
-	// 3. Сохраняет новые найденные игры в БД.
-	// 4. Возвращает объединенный результат.
 	SearchGames(context.Context, *SearchGamesRequest) (*GamesListResponse, error)
-	// Получение детальной информации об игре.
-	// Логика сервера:
-	// 1. Ищет в БД по slug или id.
-	// 2. Если нет -> запрашивает IGDB (нужен метод поиска по slug в IGDBManager, либо через Search).
-	// 3. Если нашел -> сохраняет полную инфу в БД и отдает клиенту.
 	GetGame(context.Context, *GetGameRequest) (*GetGameResponse, error)
-	// Получение игр по жанру (использует IGDBManager::GetGamesByGenre + кэш)
 	GetGamesByGenre(context.Context, *GetGamesByGenreRequest) (*GamesListResponse, error)
-	// Получение топа игр (использует IGDBManager::GetTopRatedGames + кэш)
 	GetTopRatedGames(context.Context, *GetDiscoveryRequest) (*GamesListResponse, error)
-	// Получение ожидаемых игр (использует IGDBManager::GetUpcomingGames + кэш)
 	GetUpcomingGames(context.Context, *GetDiscoveryRequest) (*GamesListResponse, error)
 	ListGames(context.Context, *ListGamesRequest) (*GamesListResponse, error)
 	SetRating(context.Context, *RatingRequest) (*emptypb.Empty, error)

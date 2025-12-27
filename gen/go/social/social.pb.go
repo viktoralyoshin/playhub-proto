@@ -24,9 +24,9 @@ const (
 
 type CreateReviewRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // Приходит из контекста (через Gateway)
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	GameId        string                 `protobuf:"bytes,2,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
-	Rating        int32                  `protobuf:"varint,3,opt,name=rating,proto3" json:"rating,omitempty"` // 1-10
+	Rating        int32                  `protobuf:"varint,3,opt,name=rating,proto3" json:"rating,omitempty"`
 	Text          string                 `protobuf:"bytes,4,opt,name=text,proto3" json:"text,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

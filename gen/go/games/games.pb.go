@@ -28,8 +28,6 @@ type FilterType int32
 const (
 	FilterType_FIRST_RELEASE_DATE FilterType = 0
 	FilterType_PLAYHUB_RATING     FilterType = 1
-	FilterType_GENRES             FilterType = 2
-	FilterType_PLATFORMS          FilterType = 3
 )
 
 // Enum value maps for FilterType.
@@ -37,14 +35,10 @@ var (
 	FilterType_name = map[int32]string{
 		0: "FIRST_RELEASE_DATE",
 		1: "PLAYHUB_RATING",
-		2: "GENRES",
-		3: "PLATFORMS",
 	}
 	FilterType_value = map[string]int32{
 		"FIRST_RELEASE_DATE": 0,
 		"PLAYHUB_RATING":     1,
-		"GENRES":             2,
-		"PLATFORMS":          3,
 	}
 )
 
@@ -128,11 +122,9 @@ func (x *RatingRequest) GetRating() uint32 {
 }
 
 type SearchGamesRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Поисковый запрос (например "Elden Ring" или "GTA")
-	Query string `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
-	// Максимальное количество результатов (default: 10)
-	Limit         uint32 `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Query         string                 `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
+	Limit         uint32                 `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -183,8 +175,6 @@ func (x *SearchGamesRequest) GetLimit() uint32 {
 
 type GetGameRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Мы позволяем искать игру либо по нашему UUID, либо по человеко-читаемому slug
-	//
 	// Types that are valid to be assigned to IdType:
 	//
 	//	*GetGameRequest_GameId
@@ -254,11 +244,11 @@ type isGetGameRequest_IdType interface {
 }
 
 type GetGameRequest_GameId struct {
-	GameId string `protobuf:"bytes,1,opt,name=game_id,json=gameId,proto3,oneof"` // Внутренний UUID (из Postgres)
+	GameId string `protobuf:"bytes,1,opt,name=game_id,json=gameId,proto3,oneof"`
 }
 
 type GetGameRequest_Slug struct {
-	Slug string `protobuf:"bytes,2,opt,name=slug,proto3,oneof"` // URL-friendly имя (например "the-witcher-3-wild-hunt")
+	Slug string `protobuf:"bytes,2,opt,name=slug,proto3,oneof"`
 }
 
 func (*GetGameRequest_GameId) isGetGameRequest_IdType() {}
@@ -310,10 +300,9 @@ func (x *GetGameResponse) GetGame() *Game {
 }
 
 type GetGamesByGenreRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Название жанра (как в IGDB, например "Role-playing (RPG)")
-	GenreName     string `protobuf:"bytes,1,opt,name=genre_name,json=genreName,proto3" json:"genre_name,omitempty"`
-	Limit         uint32 `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	GenreName     string                 `protobuf:"bytes,1,opt,name=genre_name,json=genreName,proto3" json:"genre_name,omitempty"`
+	Limit         uint32                 `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -363,9 +352,8 @@ func (x *GetGamesByGenreRequest) GetLimit() uint32 {
 }
 
 type GetDiscoveryRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Лимит выдачи
-	Limit         uint32 `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Limit         uint32                 `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -512,44 +500,27 @@ func (x *ListGamesRequest) GetFilter() FilterType {
 }
 
 type Game struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Уникальный идентификатор игры в нашей системе (UUID string)
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	// ID из IGDB API
-	IgdbId string `protobuf:"bytes,2,opt,name=igdb_id,json=igdbId,proto3" json:"igdb_id,omitempty"`
-	// Название игры
-	Name string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	// Человеко-читаемый идентификатор для URL
-	Slug string `protobuf:"bytes,4,opt,name=slug,proto3" json:"slug,omitempty"`
-	// Краткое описание
-	Summary string `protobuf:"bytes,5,opt,name=summary,proto3" json:"summary,omitempty"`
-	// Рейтинг от критиков (0-100)
-	IgdbRating    float64 `protobuf:"fixed64,6,opt,name=igdb_rating,json=igdbRating,proto3" json:"igdb_rating,omitempty"`
-	PlayhubRating float64 `protobuf:"fixed64,7,opt,name=playhub_rating,json=playhubRating,proto3" json:"playhub_rating,omitempty"`
-	// Индекс ожидания/хайпа
-	Hypes uint32 `protobuf:"varint,8,opt,name=hypes,proto3" json:"hypes,omitempty"`
-	// Дата первого релиза (строка, т.к. может быть неточной "2024")
-	FirstReleaseDate string `protobuf:"bytes,9,opt,name=first_release_date,json=firstReleaseDate,proto3" json:"first_release_date,omitempty"`
-	// Список всех дат релизов
-	ReleaseDates []string `protobuf:"bytes,10,rep,name=release_dates,json=releaseDates,proto3" json:"release_dates,omitempty"`
-	// URL обложки
-	CoverUrl string `protobuf:"bytes,11,opt,name=cover_url,json=coverUrl,proto3" json:"cover_url,omitempty"`
-	// URL артов
-	ArtworkUrls []string `protobuf:"bytes,12,rep,name=artwork_urls,json=artworkUrls,proto3" json:"artwork_urls,omitempty"`
-	// URL скриншотов
-	Screenshots []string `protobuf:"bytes,13,rep,name=screenshots,proto3" json:"screenshots,omitempty"`
-	// Жанры (RPG, Shooter, etc.)
-	Genres []string `protobuf:"bytes,14,rep,name=genres,proto3" json:"genres,omitempty"`
-	// Темы (Fantasy, Sci-Fi)
-	Themes []string `protobuf:"bytes,15,rep,name=themes,proto3" json:"themes,omitempty"`
-	// Платформы (PC, PS5, Xbox)
-	Platforms []string `protobuf:"bytes,16,rep,name=platforms,proto3" json:"platforms,omitempty"`
-	// Когда запись создана в нашей БД
-	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	// Когда запись обновлена в нашей БД
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,18,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Id               string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	IgdbId           string                 `protobuf:"bytes,2,opt,name=igdb_id,json=igdbId,proto3" json:"igdb_id,omitempty"`
+	Name             string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Slug             string                 `protobuf:"bytes,4,opt,name=slug,proto3" json:"slug,omitempty"`
+	Summary          string                 `protobuf:"bytes,5,opt,name=summary,proto3" json:"summary,omitempty"`
+	IgdbRating       float64                `protobuf:"fixed64,6,opt,name=igdb_rating,json=igdbRating,proto3" json:"igdb_rating,omitempty"`
+	PlayhubRating    float64                `protobuf:"fixed64,7,opt,name=playhub_rating,json=playhubRating,proto3" json:"playhub_rating,omitempty"`
+	Hypes            uint32                 `protobuf:"varint,8,opt,name=hypes,proto3" json:"hypes,omitempty"`
+	FirstReleaseDate string                 `protobuf:"bytes,9,opt,name=first_release_date,json=firstReleaseDate,proto3" json:"first_release_date,omitempty"`
+	ReleaseDates     []string               `protobuf:"bytes,10,rep,name=release_dates,json=releaseDates,proto3" json:"release_dates,omitempty"`
+	CoverUrl         string                 `protobuf:"bytes,11,opt,name=cover_url,json=coverUrl,proto3" json:"cover_url,omitempty"`
+	ArtworkUrls      []string               `protobuf:"bytes,12,rep,name=artwork_urls,json=artworkUrls,proto3" json:"artwork_urls,omitempty"`
+	Screenshots      []string               `protobuf:"bytes,13,rep,name=screenshots,proto3" json:"screenshots,omitempty"`
+	Genres           []string               `protobuf:"bytes,14,rep,name=genres,proto3" json:"genres,omitempty"`
+	Themes           []string               `protobuf:"bytes,15,rep,name=themes,proto3" json:"themes,omitempty"`
+	Platforms        []string               `protobuf:"bytes,16,rep,name=platforms,proto3" json:"platforms,omitempty"`
+	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt        *timestamppb.Timestamp `protobuf:"bytes,18,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *Game) Reset() {
@@ -759,14 +730,11 @@ const file_games_games_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt*S\n" +
+	"updated_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt*8\n" +
 	"\n" +
 	"FilterType\x12\x16\n" +
 	"\x12FIRST_RELEASE_DATE\x10\x00\x12\x12\n" +
-	"\x0ePLAYHUB_RATING\x10\x01\x12\n" +
-	"\n" +
-	"\x06GENRES\x10\x02\x12\r\n" +
-	"\tPLATFORMS\x10\x032\xe6\x03\n" +
+	"\x0ePLAYHUB_RATING\x10\x012\xe6\x03\n" +
 	"\vGameService\x12B\n" +
 	"\vSearchGames\x12\x19.games.SearchGamesRequest\x1a\x18.games.GamesListResponse\x128\n" +
 	"\aGetGame\x12\x15.games.GetGameRequest\x1a\x16.games.GetGameResponse\x12J\n" +

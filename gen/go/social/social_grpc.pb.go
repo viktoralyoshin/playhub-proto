@@ -29,11 +29,9 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SocialServiceClient interface {
-	// Отзывы
 	CreateReview(ctx context.Context, in *CreateReviewRequest, opts ...grpc.CallOption) (*CreateReviewResponse, error)
 	GetGameReviews(ctx context.Context, in *GetGameReviewsRequest, opts ...grpc.CallOption) (*GetGameReviewsResponse, error)
 	GetUserReviews(ctx context.Context, in *GetUserReviewsRequest, opts ...grpc.CallOption) (*GetUserReviewsResponse, error)
-	// Лента (Feed)
 	GetFeed(ctx context.Context, in *GetFeedRequest, opts ...grpc.CallOption) (*GetFeedResponse, error)
 }
 
@@ -89,11 +87,9 @@ func (c *socialServiceClient) GetFeed(ctx context.Context, in *GetFeedRequest, o
 // All implementations must embed UnimplementedSocialServiceServer
 // for forward compatibility.
 type SocialServiceServer interface {
-	// Отзывы
 	CreateReview(context.Context, *CreateReviewRequest) (*CreateReviewResponse, error)
 	GetGameReviews(context.Context, *GetGameReviewsRequest) (*GetGameReviewsResponse, error)
 	GetUserReviews(context.Context, *GetUserReviewsRequest) (*GetUserReviewsResponse, error)
-	// Лента (Feed)
 	GetFeed(context.Context, *GetFeedRequest) (*GetFeedResponse, error)
 	mustEmbedUnimplementedSocialServiceServer()
 }

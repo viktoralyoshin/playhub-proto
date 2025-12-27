@@ -69,8 +69,6 @@ message ListGamesRequest {
 enum FilterType {
     FIRST_RELEASE_DATE = 0;
     PLAYHUB_RATING = 1;
-    GENRES = 2;
-    PLATFORMS = 3;
 }
 
 message Game {
