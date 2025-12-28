@@ -9,6 +9,7 @@ package library
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -84,6 +85,8 @@ type LibraryEntry struct {
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	GameId        string                 `protobuf:"bytes,2,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty"`
 	Status        GameStatus             `protobuf:"varint,3,opt,name=status,proto3,enum=library.GameStatus" json:"status,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,17,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,18,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -137,6 +140,20 @@ func (x *LibraryEntry) GetStatus() GameStatus {
 		return x.Status
 	}
 	return GameStatus_GAME_STATUS_UNSPECIFIED
+}
+
+func (x *LibraryEntry) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *LibraryEntry) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
 }
 
 type UpdateLibraryEntryRequest struct {
@@ -439,11 +456,15 @@ var File_library_library_proto protoreflect.FileDescriptor
 
 const file_library_library_proto_rawDesc = "" +
 	"\n" +
-	"\x15library/library.proto\x12\alibrary\"m\n" +
+	"\x15library/library.proto\x12\alibrary\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe3\x01\n" +
 	"\fLibraryEntry\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x17\n" +
 	"\agame_id\x18\x02 \x01(\tR\x06gameId\x12+\n" +
-	"\x06status\x18\x03 \x01(\x0e2\x13.library.GameStatusR\x06status\"z\n" +
+	"\x06status\x18\x03 \x01(\x0e2\x13.library.GameStatusR\x06status\x129\n" +
+	"\n" +
+	"created_at\x18\x11 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x12 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"z\n" +
 	"\x19UpdateLibraryEntryRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x17\n" +
 	"\agame_id\x18\x02 \x01(\tR\x06gameId\x12+\n" +
@@ -496,23 +517,26 @@ var file_library_library_proto_goTypes = []any{
 	(*GetLibraryStatsResponse)(nil),    // 5: library.GetLibraryStatsResponse
 	(*GetUserLibraryRequest)(nil),      // 6: library.GetUserLibraryRequest
 	(*GetUserLibraryResponse)(nil),     // 7: library.GetUserLibraryResponse
+	(*timestamppb.Timestamp)(nil),      // 8: google.protobuf.Timestamp
 }
 var file_library_library_proto_depIdxs = []int32{
 	0, // 0: library.LibraryEntry.status:type_name -> library.GameStatus
-	0, // 1: library.UpdateLibraryEntryRequest.status:type_name -> library.GameStatus
-	1, // 2: library.UpdateLibraryEntryResponse.entry:type_name -> library.LibraryEntry
-	1, // 3: library.GetUserLibraryResponse.entries:type_name -> library.LibraryEntry
-	2, // 4: library.LibraryService.UpdateLibraryEntry:input_type -> library.UpdateLibraryEntryRequest
-	6, // 5: library.LibraryService.GetUserLibrary:input_type -> library.GetUserLibraryRequest
-	4, // 6: library.LibraryService.GetLibraryStats:input_type -> library.GetLibraryStatsRequest
-	3, // 7: library.LibraryService.UpdateLibraryEntry:output_type -> library.UpdateLibraryEntryResponse
-	7, // 8: library.LibraryService.GetUserLibrary:output_type -> library.GetUserLibraryResponse
-	5, // 9: library.LibraryService.GetLibraryStats:output_type -> library.GetLibraryStatsResponse
-	7, // [7:10] is the sub-list for method output_type
-	4, // [4:7] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	8, // 1: library.LibraryEntry.created_at:type_name -> google.protobuf.Timestamp
+	8, // 2: library.LibraryEntry.updated_at:type_name -> google.protobuf.Timestamp
+	0, // 3: library.UpdateLibraryEntryRequest.status:type_name -> library.GameStatus
+	1, // 4: library.UpdateLibraryEntryResponse.entry:type_name -> library.LibraryEntry
+	1, // 5: library.GetUserLibraryResponse.entries:type_name -> library.LibraryEntry
+	2, // 6: library.LibraryService.UpdateLibraryEntry:input_type -> library.UpdateLibraryEntryRequest
+	6, // 7: library.LibraryService.GetUserLibrary:input_type -> library.GetUserLibraryRequest
+	4, // 8: library.LibraryService.GetLibraryStats:input_type -> library.GetLibraryStatsRequest
+	3, // 9: library.LibraryService.UpdateLibraryEntry:output_type -> library.UpdateLibraryEntryResponse
+	7, // 10: library.LibraryService.GetUserLibrary:output_type -> library.GetUserLibraryResponse
+	5, // 11: library.LibraryService.GetLibraryStats:output_type -> library.GetLibraryStatsResponse
+	9, // [9:12] is the sub-list for method output_type
+	6, // [6:9] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_library_library_proto_init() }
