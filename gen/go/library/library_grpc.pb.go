@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	LibraryService_UpdateLibraryEntry_FullMethodName = "/library.LibraryService/UpdateLibraryEntry"
 	LibraryService_GetUserLibrary_FullMethodName     = "/library.LibraryService/GetUserLibrary"
+	LibraryService_GetLibraryStats_FullMethodName    = "/library.LibraryService/GetLibraryStats"
 )
 
 // LibraryServiceClient is the client API for LibraryService service.
@@ -29,6 +30,7 @@ const (
 type LibraryServiceClient interface {
 	UpdateLibraryEntry(ctx context.Context, in *UpdateLibraryEntryRequest, opts ...grpc.CallOption) (*UpdateLibraryEntryResponse, error)
 	GetUserLibrary(ctx context.Context, in *GetUserLibraryRequest, opts ...grpc.CallOption) (*GetUserLibraryResponse, error)
+	GetLibraryStats(ctx context.Context, in *GetLibraryStatsRequest, opts ...grpc.CallOption) (*GetLibraryStatsResponse, error)
 }
 
 type libraryServiceClient struct {
@@ -59,12 +61,23 @@ func (c *libraryServiceClient) GetUserLibrary(ctx context.Context, in *GetUserLi
 	return out, nil
 }
 
+func (c *libraryServiceClient) GetLibraryStats(ctx context.Context, in *GetLibraryStatsRequest, opts ...grpc.CallOption) (*GetLibraryStatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetLibraryStatsResponse)
+	err := c.cc.Invoke(ctx, LibraryService_GetLibraryStats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LibraryServiceServer is the server API for LibraryService service.
 // All implementations must embed UnimplementedLibraryServiceServer
 // for forward compatibility.
 type LibraryServiceServer interface {
 	UpdateLibraryEntry(context.Context, *UpdateLibraryEntryRequest) (*UpdateLibraryEntryResponse, error)
 	GetUserLibrary(context.Context, *GetUserLibraryRequest) (*GetUserLibraryResponse, error)
+	GetLibraryStats(context.Context, *GetLibraryStatsRequest) (*GetLibraryStatsResponse, error)
 	mustEmbedUnimplementedLibraryServiceServer()
 }
 
@@ -80,6 +93,9 @@ func (UnimplementedLibraryServiceServer) UpdateLibraryEntry(context.Context, *Up
 }
 func (UnimplementedLibraryServiceServer) GetUserLibrary(context.Context, *GetUserLibraryRequest) (*GetUserLibraryResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetUserLibrary not implemented")
+}
+func (UnimplementedLibraryServiceServer) GetLibraryStats(context.Context, *GetLibraryStatsRequest) (*GetLibraryStatsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetLibraryStats not implemented")
 }
 func (UnimplementedLibraryServiceServer) mustEmbedUnimplementedLibraryServiceServer() {}
 func (UnimplementedLibraryServiceServer) testEmbeddedByValue()                        {}
@@ -138,6 +154,24 @@ func _LibraryService_GetUserLibrary_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LibraryService_GetLibraryStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLibraryStatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LibraryServiceServer).GetLibraryStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: LibraryService_GetLibraryStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LibraryServiceServer).GetLibraryStats(ctx, req.(*GetLibraryStatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // LibraryService_ServiceDesc is the grpc.ServiceDesc for LibraryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +186,10 @@ var LibraryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserLibrary",
 			Handler:    _LibraryService_GetUserLibrary_Handler,
+		},
+		{
+			MethodName: "GetLibraryStats",
+			Handler:    _LibraryService_GetLibraryStats_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

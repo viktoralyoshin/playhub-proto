@@ -8,6 +8,7 @@ option go_package = "github.com/viktoralyoshin/playhub-proto/gen/go/library";
 service LibraryService {
   rpc UpdateLibraryEntry(UpdateLibraryEntryRequest) returns (UpdateLibraryEntryResponse);
   rpc GetUserLibrary(GetUserLibraryRequest) returns (GetUserLibraryResponse);
+  rpc GetLibraryStats(GetLibraryStatsRequest) returns (GetLibraryStatsResponse);
 }
 
 
@@ -37,13 +38,18 @@ message UpdateLibraryEntryResponse {
   LibraryEntry entry = 1; 
 }
 
+message GetLibraryStatsRequest {
+  string user_id = 1;
+}
+
+message GetLibraryStatsResponse {
+  int32 count_library_entries = 1;
+}
+
 message GetUserLibraryRequest {
   string user_id = 1;
-
-  GameStatus status = 2;       
-  
-  int32 limit = 3;
-  int32 offset = 4;
+  int32 limit = 2;
+  int32 offset = 3;
 }
 
 message GetUserLibraryResponse {
