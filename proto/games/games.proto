@@ -79,8 +79,8 @@ message Game {
     string slug = 4;
     string summary = 5;
 
-    double igdb_rating = 6;
-    double playhub_rating = 7;
+    int32 igdb_rating = 6;
+    int32 playhub_rating = 7;
     uint32 hypes = 8;
 
     string first_release_date = 9;

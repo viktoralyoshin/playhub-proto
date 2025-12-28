@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package library;
+
+option go_package = "github.com/viktoralyoshin/playhub-proto/gen/go/library";
+
+
+service LibraryService {
+  rpc UpdateLibraryEntry(UpdateLibraryEntryRequest) returns (UpdateLibraryEntryResponse);
+  rpc GetUserLibrary(GetUserLibraryRequest) returns (GetUserLibraryResponse);
+}
+
+
+enum GameStatus {
+  GAME_STATUS_UNSPECIFIED = 0;
+  GAME_STATUS_PLAN = 1;        // "В планах"
+  GAME_STATUS_PLAYING = 2;     // "Играю"
+  GAME_STATUS_COMPLETED = 3;   // "Пройдено"
+  GAME_STATUS_DROPPED = 4;     // "Брошено"
+  GAME_STATUS_WAITING = 5;     // "Жду выхода"
+}
+
+
+message LibraryEntry {
+  string user_id = 1;
+  string game_id = 2;
+  GameStatus status = 3;
+}
+
+message UpdateLibraryEntryRequest {
+  string user_id = 1;
+  string game_id = 2;
+  GameStatus status = 3;        
+}
+
+message UpdateLibraryEntryResponse {
+  LibraryEntry entry = 1; 
+}
+
+message GetUserLibraryRequest {
+  string user_id = 1;
+
+  GameStatus status = 2;       
+  
+  int32 limit = 3;
+  int32 offset = 4;
+}
+
+message GetUserLibraryResponse {
+  repeated LibraryEntry entries = 1;
+}
