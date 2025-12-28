@@ -7,6 +7,7 @@ generate:
 	       --go-grpc_out=gen/go --go-grpc_opt=paths=source_relative \
 	       proto/auth/auth.proto \
 		   proto/games/games.proto \
-		   proto/social/social.proto
+		   proto/social/social.proto \
+		   proto/library/library.proto
 
 	go mod tidy
