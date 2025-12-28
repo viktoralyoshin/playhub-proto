@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package library;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "github.com/viktoralyoshin/playhub-proto/gen/go/library";
 
 
@@ -26,6 +28,9 @@ message LibraryEntry {
   string user_id = 1;
   string game_id = 2;
   GameStatus status = 3;
+
+  google.protobuf.Timestamp created_at = 17;
+  google.protobuf.Timestamp updated_at = 18;
 }
 
 message UpdateLibraryEntryRequest {
