@@ -506,8 +506,8 @@ type Game struct {
 	Name             string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	Slug             string                 `protobuf:"bytes,4,opt,name=slug,proto3" json:"slug,omitempty"`
 	Summary          string                 `protobuf:"bytes,5,opt,name=summary,proto3" json:"summary,omitempty"`
-	IgdbRating       float64                `protobuf:"fixed64,6,opt,name=igdb_rating,json=igdbRating,proto3" json:"igdb_rating,omitempty"`
-	PlayhubRating    float64                `protobuf:"fixed64,7,opt,name=playhub_rating,json=playhubRating,proto3" json:"playhub_rating,omitempty"`
+	IgdbRating       int32                  `protobuf:"varint,6,opt,name=igdb_rating,json=igdbRating,proto3" json:"igdb_rating,omitempty"`
+	PlayhubRating    int32                  `protobuf:"varint,7,opt,name=playhub_rating,json=playhubRating,proto3" json:"playhub_rating,omitempty"`
 	Hypes            uint32                 `protobuf:"varint,8,opt,name=hypes,proto3" json:"hypes,omitempty"`
 	FirstReleaseDate string                 `protobuf:"bytes,9,opt,name=first_release_date,json=firstReleaseDate,proto3" json:"first_release_date,omitempty"`
 	ReleaseDates     []string               `protobuf:"bytes,10,rep,name=release_dates,json=releaseDates,proto3" json:"release_dates,omitempty"`
@@ -588,14 +588,14 @@ func (x *Game) GetSummary() string {
 	return ""
 }
 
-func (x *Game) GetIgdbRating() float64 {
+func (x *Game) GetIgdbRating() int32 {
 	if x != nil {
 		return x.IgdbRating
 	}
 	return 0
 }
 
-func (x *Game) GetPlayhubRating() float64 {
+func (x *Game) GetPlayhubRating() int32 {
 	if x != nil {
 		return x.PlayhubRating
 	}
@@ -714,9 +714,9 @@ const file_games_games_proto_rawDesc = "" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12\x12\n" +
 	"\x04slug\x18\x04 \x01(\tR\x04slug\x12\x18\n" +
 	"\asummary\x18\x05 \x01(\tR\asummary\x12\x1f\n" +
-	"\vigdb_rating\x18\x06 \x01(\x01R\n" +
+	"\vigdb_rating\x18\x06 \x01(\x05R\n" +
 	"igdbRating\x12%\n" +
-	"\x0eplayhub_rating\x18\a \x01(\x01R\rplayhubRating\x12\x14\n" +
+	"\x0eplayhub_rating\x18\a \x01(\x05R\rplayhubRating\x12\x14\n" +
 	"\x05hypes\x18\b \x01(\rR\x05hypes\x12,\n" +
 	"\x12first_release_date\x18\t \x01(\tR\x10firstReleaseDate\x12#\n" +
 	"\rrelease_dates\x18\n" +
